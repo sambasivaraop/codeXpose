@@ -15,7 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import include, url
+
+from rest_framework import routers
+
+from rest_framework_swagger.views import get_swagger_view
+
+from interview.views import QuestionViewSet
+from interview.views import UserViewSet
+
+schema_view = get_swagger_view(title='codeXpose API')
+
+router = routers.DefaultRouter()
+router.register(r'Question', QuestionViewSet)
+router.register(r'User', UserViewSet)
+# urlpatterns = router.urls
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    url('admin/', admin.site.urls),
+    url(r'^api/', include(router.urls)),
+    url(r'^docs/', schema_view),
 ]

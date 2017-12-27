@@ -18,8 +18,8 @@ class User(models.Model):
     )
     email = models.EmailField()
     password = models.CharField(max_length=20)
-    created_at = models.DateTimeField()
-    modified_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now_add=True)
     user_type = models.CharField(max_length=20,
                                  choices=type_choice,
                                  default='interviewer')
