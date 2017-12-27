@@ -2,22 +2,27 @@ from django.db import models
 
 
 class Test(models.Model):
-    test_id = models.IntegerField(unique=True)
     title = models.CharField(max_length=100)
     created_at = models.DateTimeField()
     modified_at = models.DateTimeField()
+    duration = models.DurationField(blank=True, null=True)
 
     def __str__(self):
         return self.title
 
 
 class User(models.Model):
-    user_id = models.IntegerField(unique=True)
-    test = models.ForeignKey(Test, on_delete=models.SET_NULL, null=True)
+    type_choice = (
+        ('interviewer', 'Interviewer'),
+        ('candidate', 'Candidate'),
+    )
     email = models.EmailField()
     password = models.CharField(max_length=20)
     created_at = models.DateTimeField()
     modified_at = models.DateTimeField()
+    user_type = models.CharField(max_length=20,
+                                 choices=type_choice,
+                                 default='interviewer')
 
 
 def question_data_path(instance, filename):
@@ -26,7 +31,6 @@ def question_data_path(instance, filename):
 
 
 class Question(models.Model):
-    question_id = models.IntegerField(unique=True)
     question_type = models.CharField(max_length=20)
     problem_statement = models.FileField(upload_to=question_data_path)
     test_cases = models.FileField(upload_to=question_data_path)
@@ -34,3 +38,8 @@ class Question(models.Model):
     test = models.ManyToManyField(Test)
     created_at = models.DateTimeField()
     modified_at = models.DateTimeField()
+
+
+class UserTestMapping(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    test = models.ForeignKey(Test, on_delete=models.CASCADE)
