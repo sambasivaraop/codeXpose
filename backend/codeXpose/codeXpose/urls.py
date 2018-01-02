@@ -15,24 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import include, url
+from django.conf.urls import include
 
-from rest_framework import routers
-
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, \
+    verify_jwt_token
 from rest_framework_swagger.views import get_swagger_view
 
-from interview.views import QuestionViewSet
-from interview.views import UserViewSet
+from interview.urls import interview_urlpatterns
 
 schema_view = get_swagger_view(title='codeXpose API')
 
-router = routers.DefaultRouter()
-router.register(r'Question', QuestionViewSet)
-router.register(r'User', UserViewSet)
-# urlpatterns = router.urls
-
 urlpatterns = [
-    url('admin/', admin.site.urls),
-    url(r'^api/', include(router.urls)),
-    url(r'^docs/', schema_view),
+    path('admin/', admin.site.urls),
+    path('interview/', include(interview_urlpatterns)),
+    path('api-token-auth/', obtain_jwt_token),
+    path('docs/', schema_view),
+    # path('api-token-refresh/', refresh_jwt_token),
+    # path('api-token-verify/', verify_jwt_token),
 ]
