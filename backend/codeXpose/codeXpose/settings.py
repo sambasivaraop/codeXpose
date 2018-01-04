@@ -72,14 +72,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'codeXpose.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME' : 'interview',
+        'NAME' : 'codeXpose',
+        'TEST_NAME':'test_codeXpose',
         'USER' : 'arun',
         'PASSWORD' : 'abc@1234',
         'HOST' : 'localhost',

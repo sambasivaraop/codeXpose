@@ -3,42 +3,14 @@
 To contribute to codeXpose :
 
 1. Please make a fork request for this respository, clone your fork.
-2. Make some changes, and submit a pull request.
-3. Please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
-
-Please note we have a code of conduct, please follow it in all your interactions with the project.
+2. Create a branch with "issue-id" of issue on which you are working, mentioned in name of branch.
+3. Make some changes, and submit a pull request.
+4. Please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
+5. Please make sure that your pull request does not have multiple commits.
 
 # Pull Request Process
 
-1. Ensure any install or build dependencies are removed before the end of the layer when doing a build.
-2. Update the README.md with details of changes to the interface, this includes new environment variables, exposed ports, useful file locations and container parameters.
-3. Increase the version numbers in any examples files and the README.md to the new version that this Pull Request would represent. The versioning scheme we use is Git.
-4. You may merge the Pull Request in once you have the sign-off of two other developers, or if you do not have permission to do that, you may request the second reviewer to merge it for you.
-
-# Code of Conduct
-
-Our pledge
---------
-In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
-
-Our Standards
---------
-Examples of behavior that contributes to creating a positive environment include:
-
-* Using welcoming and inclusive language
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the community
-* Showing empathy towards other community members
-
-Examples of unacceptable behavior by participants include:
-
-* The use of sexualized language or imagery and unwelcome sexual attention or advances
-* Trolling, insulting/derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or electronic address, without explicit permission
-* Other conduct which could reasonably be considered inappropriate in a professional setting
-
-Scope
---------
-This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community. Examples of representing a project or community include using an official project e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event. Representation of a project may be further defined and clarified by project maintainers.
+1. Please mention the issue id while raising a pull request.
+2. Ensure any install or build dependencies are removed before the end of the layer when doing a build.
+3. Please make sure that your branch can be merged.
+4. Please make sure that your branch compiles and is well tested.

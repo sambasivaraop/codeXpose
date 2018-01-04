@@ -6,7 +6,8 @@ class QuestionSerializers(serializers.ModelSerializer):
     """Serializer class for Question model."""
     class Meta:
         model = Question
-        fields = '__all__'
+        fields = ('question_id', 'title', 'question_type', 'problem_statement',
+                  'skeleton')
 
 
 class UserSerializers(serializers.ModelSerializer):
@@ -27,6 +28,8 @@ class UserSerializers(serializers.ModelSerializer):
 
 class TestSerializers(serializers.ModelSerializer):
     """Serializer class for Test model."""
+    question = QuestionSerializers(many=True)
+
     class Meta:
         model = Test
-        fields = ('title', 'duration')
+        fields = ('title', 'duration', 'question')

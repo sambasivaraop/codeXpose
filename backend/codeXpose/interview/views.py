@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import detail_route, list_route
 
-from .models import Question, User, Test, UserTestMapping
+from .models import Question, User, Test, CandidateTestMapping
 from .serializers import QuestionSerializers, UserSerializers, TestSerializers
 from .permissions import UserViewSetPermission, QuestionViewSetPermission, \
     TestViewSetPermission
@@ -57,7 +57,7 @@ class UserViewSet(viewsets.ModelViewSet):
     
     def create(self, request, *args, **kwargs):
         """create the user and put user test mapping in database."""
-        if request.data.get('user_type', None) == "candidate":
+        if request.data.get('user_type', None) == "CANDIDATE":
             test_id = request.data.get('test_id', None)
             if test_id is None:
                 return Response(
@@ -70,7 +70,7 @@ class UserViewSet(viewsets.ModelViewSet):
             try:
                 user_instance = User.objects.get(id = user_id)
                 test_instance = Test.objects.get(id = test_id)
-                _ = UserTestMapping.objects.create(user=user_instance,
+                _ = CandidateTestMapping.objects.create(user=user_instance,
                                                    test=test_instance)
                 return resp
             except:
@@ -92,8 +92,3 @@ class TestViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """To populate the created_by field by current logged in user."""
         serializer.save(created_by=self.request.user)
-
-    def get_queryset(self):
-        """To list the test crated by current logged in user."""
-        queryset = Test.objects.filter(created_by = self.request.user)
-        return queryset

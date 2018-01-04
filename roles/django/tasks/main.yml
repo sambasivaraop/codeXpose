@@ -1,0 +1,11 @@
+---
+
+# tasks file for django
+
+- name: Create the virtualenv
+  command: virtualenv -p python3 {{ virtualenv_dir }} 
+
+- name: Install requirements
+  shell: . {{ virtualenv_dir }}/bin/activate && pip install -r {{ requirements_file }}
+
+- include: django_manage.yml

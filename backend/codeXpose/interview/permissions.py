@@ -6,13 +6,13 @@ class UserViewSetPermission(permissions.BasePermission):
 
     def has_permission(self, request, view):
         user = request.user
-        if user.user_type == 'interviewer':
+        if user.user_type == 'INTERVIEWER':
             return True
         return False
 
     def has_object_permission(self, request, view, obj):
         # Instance must have an attribute named `email`.
-        if request.user.user_type == "interviewer":
+        if request.user.user_type == "INTERVIEWER":
             return True
         return obj.email == request.user.email
 
@@ -21,7 +21,7 @@ class QuestionViewSetPermission(permissions.BasePermission):
     """Custom permission class for Question view set."""
     def has_permission(self, request, view):
         user = request.user
-        if user.user_type != 'interviewer':
+        if user.user_type != 'INTERVIEWER':
             return False
         return True
 
@@ -34,7 +34,7 @@ class TestViewSetPermission(permissions.BasePermission):
 
     def has_permission(self, request, view):
         user = request.user
-        if user.user_type != 'interviewer':
+        if user.user_type != 'INTERVIEWER':
             return False
         return True
 
@@ -42,5 +42,3 @@ class TestViewSetPermission(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         return obj.created_by == request.user
-
-

@@ -3,10 +3,11 @@ from django.contrib.auth.models import AbstractBaseUser
 from .managers import UserManager
 
 
-class User(AbstractBaseUser):    # inherit it from AbstractBaseUser
+class User(AbstractBaseUser):
+    """Model class for User instance."""
     type_choice = (
-        ('interviewer', 'Interviewer'),
-        ('candidate', 'Candidate'),
+        ('INTERVIEWER', 'Interviewer'),
+        ('CANDIDATE', 'Candidate'),
     )
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
@@ -15,7 +16,7 @@ class User(AbstractBaseUser):    # inherit it from AbstractBaseUser
     modified_at = models.DateTimeField(auto_now=True)
     user_type = models.CharField(max_length=20,
                                  choices=type_choice,
-                                 default='interviewer')
+                                 default='INTERVIEWER')
     is_admin = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
@@ -42,32 +43,47 @@ class User(AbstractBaseUser):    # inherit it from AbstractBaseUser
         return self.is_admin
 
 
-class Test(models.Model):
-    title = models.CharField(max_length=100)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
-    duration = models.DurationField(blank=True, null=True)
-
-    def __str__(self):
-        return self.title
-
-
 def question_data_path(instance, filename):
     # question data will be uploaded to MEDIA_ROOT/question_<id>/<filename>
     return 'question_{0}/{1}'.format(instance.question_id, filename)
 
 
 class Question(models.Model):
+    """Model class for Question instance."""
+    question_id = models.IntegerField()
+    title = models.CharField(max_length=50)
     question_type = models.CharField(max_length=20)
     problem_statement = models.FileField(upload_to=question_data_path)
     test_cases = models.FileField(upload_to=question_data_path)
     skeleton = models.FileField(upload_to=question_data_path)
-    test = models.ManyToManyField(Test)
+    marks = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title
 
-class UserTestMapping(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Test(models.Model):
+    """Model class for Test instance."""
+    type_choice = (
+        ('PROGRAMMING', 'Programming'),
+        ('MCQ', 'MCQ'),
+    )
+    title = models.CharField(max_length=50)
+    test_type = models.CharField(max_length=20, choices=type_choice,
+                                 default='PROGRAMMING')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+    duration = models.DurationField(blank=True, null=True)
+    question = models.ManyToManyField(Question)
+
+    def __str__(self):
+        return self.title
+
+
+class CandidateTestMapping(models.Model):
+    """Model class for mapping of User with Test"""
+    candidate = models.ForeignKey(User, on_delete=models.CASCADE)
     test = models.ForeignKey(Test, on_delete=models.CASCADE)

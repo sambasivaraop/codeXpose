@@ -14,9 +14,3 @@ router.register(r'user', UserViewSet)
 router.register(r'test', TestViewSet)
 
 interview_urlpatterns = router.urls
-
-# urlpatterns = [
-#     path('', include(router.urls)),
-#     path('docs/', schema_view),
-#     # path('login/', UserViewSet.as_view({'post':'login'})),
-# ]
