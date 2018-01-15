@@ -1,0 +1,7 @@
+---
+# vars file for packages
+
+{ 'mysql_user': 'user1',
+  'mysql_user_pass': 'user1234',
+  'mysql_root_pass': 'root1234'
+}

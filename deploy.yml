@@ -1,0 +1,8 @@
+---
+
+ - hosts: localhost
+   sudo: yes
+   roles:
+     - initial-setup
+     - packages
+     - django

@@ -1,0 +1,31 @@
+---
+
+- name: Run Django makemigrations
+  shell: . {{ virtualenv_dir }}/bin/activate
+         && cd {{ django_dir }}
+         && python manage.py makemigrations
+
+- name: Run Django migrate
+  shell: . {{ virtualenv_dir }}/bin/activate
+         && cd {{ django_dir }}
+         && python manage.py migrate 
+
+- name: super user existed?
+  shell: echo "from django.contrib.auth import get_user_model; User = get_user_model(); print(User.objects.filter(email='{{admin_email}}').count()>0)" | {{ django_dir }}/virtual/bin/python {{django_dir}}/manage.py shell
+  register: superuser_existed
+
+- name: creating superuser(admin@xyz.com) to start with
+  shell: . {{ virtualenv_dir }}/bin/activate
+         && cd {{ django_dir }}
+         && python manage.py createsuperuser --noinput --email={{admin_email}}
+  when: superuser_existed.stdout == "False"
+
+- name: Change password tricks
+  template: src=changepassword.sh.j2 dest={{django_dir}}/changepassword.sh mode=0755
+
+- name: Please enter a password for django superuser(admin@xyz.com)
+  shell: sh "{{django_dir}}/changepassword.sh"
+
+- name: remove changepassword.sh
+  file: path="{{django_dir}}/changepassword.sh" state=absent
+
