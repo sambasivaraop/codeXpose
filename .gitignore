@@ -103,4 +103,5 @@ ENV/
 # migration
 migrations/
 
-*.gitignore*
+*.gitignore
+*.idea*

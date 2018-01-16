@@ -78,12 +78,12 @@ WSGI_APPLICATION = 'codeXpose.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME' : 'codeXpose',
-        'TEST_NAME':'test_codeXpose',
-        'USER' : 'arun',
-        'PASSWORD' : 'abc@1234',
-        'HOST' : 'localhost',
-        'PORT' : '3306'
+        'NAME': 'codeXpose',
+        'TEST_NAME': 'test_codeXpose',
+        'USER': 'arun',
+        'PASSWORD': 'abc@1234',
+        'HOST': 'localhost',
+        'PORT': '3306'
     }
 }
 
@@ -153,3 +153,20 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = '/srv/interview/'
 
 MEDIA_URL = '/srv/interview/'
+
+SWAGGER_SETTINGS = {
+    'LOGIN_URL': 'rest_framework:login',
+    'LOGOUT_URL': 'rest_framework:logout',
+    'SECURITY_DEFINITIONS': {
+        'jwt': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
+}
+
+try:
+    from .local_settings import *
+except ImportError as e:
+    pass
