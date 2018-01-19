@@ -40,9 +40,11 @@ INSTALLED_APPS = [
     'interview.apps.InterviewConfig',
     'rest_framework',
     'rest_framework_swagger',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -147,12 +149,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # ENV_PATH = os.path.abspath(os.path.dirname(__file__))
 
-MEDIA_ROOT = '/srv/interview/'
-
-MEDIA_URL = '/srv/interview/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 SWAGGER_SETTINGS = {
     'LOGIN_URL': 'rest_framework:login',
@@ -165,6 +167,8 @@ SWAGGER_SETTINGS = {
         }
     },
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 try:
     from .local_settings import *
