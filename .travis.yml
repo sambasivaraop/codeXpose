@@ -1,0 +1,17 @@
+dist: trusty
+
+language: python
+python: '3.5'
+sudo: enabled
+
+install: 
+  - pip install pylint
+  - pip install pep8
+script:
+  - pylint backend/codeXpose/codeXpose/
+  - pep8 backend/codeXpose/codeXpose/
+  - pylint backend/codeXpose/interview/
+  - pep8 backend/codeXpose/interview/
+
+ notifications:
+    slack: codexpose:Lk1VuZodnuuDanuPfGBbI86y
