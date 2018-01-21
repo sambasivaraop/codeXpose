@@ -1,4 +1,5 @@
 # codeXpose
+[![Build Status](https://travis-ci.org/inovizz/codeXpose.svg?branch=master)](https://travis-ci.org/inovizz/codeXpose)</br>
 An open source one-stop solution for conducting technical interviews.
 
 # Getting Started
