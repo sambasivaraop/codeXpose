@@ -6,12 +6,15 @@ sudo: enabled
 
 install: 
   - pip install pylint
-  - pip install pep8
+  - pip install pycodestyle
+  - pip install pylint_django
 script:
-  - pylint backend/codeXpose/codeXpose/
-  - pep8 backend/codeXpose/codeXpose/
-  - pylint backend/codeXpose/interview/
-  - pep8 backend/codeXpose/interview/
+  - cd backend/codexpose/
+  - pip install -r requirements.txt
+  - pylint --rcfile=../../.pylintrc codexpose
+  - pycodestyle codexpose/
+  - pylint --rcfile=../../.pylintrc interview/
+  - pycodestyle interview/
 
- notifications:
-    slack: codexpose:Lk1VuZodnuuDanuPfGBbI86y
+notifications:
+  slack: codexpose:Lk1VuZodnuuDanuPfGBbI86y

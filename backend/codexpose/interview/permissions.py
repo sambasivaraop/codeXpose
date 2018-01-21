@@ -1,3 +1,4 @@
+"""Define set of permissions."""
 from rest_framework import permissions
 
 

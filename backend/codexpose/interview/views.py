@@ -1,11 +1,10 @@
-from django.shortcuts import render
-
+"""Views file for Interview App."""
 import requests
 
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import detail_route, list_route
+from rest_framework.decorators import list_route
 
 from .models import Question, User, Test, CandidateTestMapping
 from .serializers import QuestionSerializers, UserSerializers, TestSerializers
@@ -46,15 +45,12 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(
                 data="Please enter a valid email address and password",
                 status=status.HTTP_400_BAD_REQUEST)
-        data = {
-                'email': email,
-                'password': password,
-            }
+        data = {'email': email, 'password': password}
         resp = requests.post(url=TOKEN_GET_ENDPOINT, data=data)
         if resp.status_code != 200:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(resp.text, status=status.HTTP_200_OK)
-    
+
     def create(self, request, *args, **kwargs):
         """create the user and put user test mapping in database."""
         if request.data.get('user_type', None) == "CANDIDATE":
@@ -67,14 +63,11 @@ class UserViewSet(viewsets.ModelViewSet):
             resp = super(UserViewSet, self).create(request, *args, **kwargs)
             user_id = resp.data.get('id', None)
             # TODO : put entry in UserTestMapping db
-            try:
-                user_instance = User.objects.get(id = user_id)
-                test_instance = Test.objects.get(id = test_id)
-                _ = CandidateTestMapping.objects.create(user=user_instance,
-                                                   test=test_instance)
-                return resp
-            except:
-                pass
+            user_instance = User.objects.get(id=user_id)
+            test_instance = Test.objects.get(id=test_id)
+            _ = CandidateTestMapping.objects.create(user=user_instance,
+                                                    test=test_instance)
+            return resp
         else:
             resp = super(UserViewSet, self).create(request, *args, **kwargs)
             return resp

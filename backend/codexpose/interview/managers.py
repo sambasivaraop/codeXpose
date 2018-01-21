@@ -1,3 +1,4 @@
+"""Manager class implementation to create Custom Auth User."""
 from django.contrib.auth.models import BaseUserManager
 
 

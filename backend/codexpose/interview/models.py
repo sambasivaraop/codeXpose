@@ -1,3 +1,4 @@
+"""Models file to define schemas."""
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from .managers import UserManager
@@ -44,6 +45,7 @@ class User(AbstractBaseUser):
 
 
 def question_data_path(instance, filename):
+    """Returns Questions data path."""
     # question data will be uploaded to MEDIA_ROOT/question_<id>/<filename>
     return 'question_{0}/{1}'.format(instance.question_id, filename)
 
