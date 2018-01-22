@@ -13,16 +13,16 @@
     template: src=my.cnf.j2 dest=/etc/mysql/my.cnf
   
   - name: Create databases
-    mysql_db: name={{item}} state=present collation=utf8_general_ci encoding=utf8 login_password=root1234
+    mysql_db: name={{item}} state=present collation=utf8_general_ci encoding=utf8 login_password={{ mysql_root_pass }}
     with_items:
-        - codeXpose
+        - codexpose
   
   - name: Add deploy DB user and allow access to news_* databases
-    mysql_user: name= {{ mysql_user }} password={{ mysql_user_pass }} host=localhost priv=codeXpose.*:ALL/db2.*:ALL,GRANT state=present 
-                login_password=root1234
+    mysql_user: name= {{ mysql_user }} password={{ mysql_user_pass }} host=localhost priv=codexpose.*:ALL/db2.*:ALL,GRANT state=present 
+                login_password={{ mysql_root_pass }}
   
   - name: Set root password
-    mysql_user: name=root password={{ mysql_root_pass }} host="{{item}}" priv=*.*:ALL,GRANT state=present login_password=root1234
+    mysql_user: name=root password={{ mysql_root_pass }} host="{{item}}" priv=*.*:ALL,GRANT state=present login_password={{ mysql_root_pass }}
     with_items:
         - localhost
   

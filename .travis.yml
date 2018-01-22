@@ -4,10 +4,6 @@ language: python
 python: '3.5'
 sudo: enabled
 
-install: 
-  - pip install pylint
-  - pip install pycodestyle
-  - pip install pylint_django
 script:
   - cd backend/codexpose/
   - pip install -r requirements.txt

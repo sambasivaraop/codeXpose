@@ -2,6 +2,7 @@
 import factory
 from .models import User
 from .models import Test
+from .models import Question
 
 
 class TestFactory(factory.Factory):
@@ -21,7 +22,9 @@ class UserFactory(factory.Factory):
 
 
 class QuestionFactory(factory.Factory):
+    """Test factory for User models."""
     class Meta:
+        """Meta class for Question model factory."""
         model = Question
     question_id = '1'
     title = "Binary Search"

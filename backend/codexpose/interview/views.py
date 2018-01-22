@@ -1,6 +1,7 @@
 """Views file for Interview App."""
 import requests
 
+from django.conf import settings
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
@@ -23,6 +24,24 @@ class QuestionViewSet(viewsets.ModelViewSet):
     serializer_class = QuestionSerializers
     permission_classes = (QuestionViewSetPermission, )
 
+    def retrieve(self, request, *args, **kwargs):
+        """
+        Method to retrieve question object.
+        This method will return the data stored in question files.
+        """
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        question_path = settings.MEDIA_ROOT + '/' + '/'.join(
+            serializer.data['problem_statement'].split('/')[-2:])
+        skeleton_path = settings.MEDIA_ROOT + '/' + '/'.join(
+            serializer.data['skeleton'].split('/')[-2:])
+        with open(question_path) as question_fp:
+            problem_statement = question_fp.read()
+        with open(skeleton_path) as skeleton_fp:
+            skeleton = skeleton_fp.read()
+        data = {'Problem Statement': problem_statement, 'Function': skeleton}
+        return Response(data)
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -33,7 +52,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializers
     permission_classes = (UserViewSetPermission, )
 
-    @list_route(methods=['post'])
+    @list_route(methods=['post'], permission_classes=(),)
     def login(self, request):
         """
         login for any valid user.
@@ -50,6 +69,7 @@ class UserViewSet(viewsets.ModelViewSet):
         if resp.status_code != 200:
             return Response(data="Invalid Credential",
                             status=status.HTTP_401_UNAUTHORIZED)
+        print(resp.text)
         return Response(resp.text, status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
@@ -65,7 +85,7 @@ class UserViewSet(viewsets.ModelViewSet):
             user_id = resp.data.get('id', None)
             user_instance = User.objects.get(id=user_id)
             test_instance = Test.objects.get(id=test_id)
-            _ = CandidateTestMapping.objects.create(user=user_instance,
+            _ = CandidateTestMapping.objects.create(candidate=user_instance,
                                                     test=test_instance)
             return resp
         else:

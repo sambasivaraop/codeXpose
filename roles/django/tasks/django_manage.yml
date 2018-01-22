@@ -3,7 +3,7 @@
 - name: Run Django makemigrations
   shell: . {{ virtualenv_dir }}/bin/activate
          && cd {{ django_dir }}
-         && python manage.py makemigrations
+         && python manage.py makemigrations interview
 
 - name: Run Django migrate
   shell: . {{ virtualenv_dir }}/bin/activate
@@ -11,7 +11,7 @@
          && python manage.py migrate 
 
 - name: super user existed?
-  shell: echo "from django.contrib.auth import get_user_model; User = get_user_model(); print(User.objects.filter(email='{{admin_email}}').count()>0)" | {{ django_dir }}/virtual/bin/python {{django_dir}}/manage.py shell
+  shell: echo "from django.contrib.auth import get_user_model; User = get_user_model(); print(User.objects.filter(email='{{admin_email}}').count()>0)" | {{ virtualenv_dir }}/bin/python {{django_dir}}/manage.py shell
   register: superuser_existed
 
 - name: creating superuser(admin@xyz.com) to start with
