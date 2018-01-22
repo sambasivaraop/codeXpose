@@ -48,7 +48,8 @@ class UserViewSet(viewsets.ModelViewSet):
         data = {'email': email, 'password': password}
         resp = requests.post(url=TOKEN_GET_ENDPOINT, data=data)
         if resp.status_code != 200:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(data="Invalid Credential",
+                            status=status.HTTP_401_UNAUTHORIZED)
         return Response(resp.text, status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
@@ -62,7 +63,6 @@ class UserViewSet(viewsets.ModelViewSet):
                 )
             resp = super(UserViewSet, self).create(request, *args, **kwargs)
             user_id = resp.data.get('id', None)
-            # TODO : put entry in UserTestMapping db
             user_instance = User.objects.get(id=user_id)
             test_instance = Test.objects.get(id=test_id)
             _ = CandidateTestMapping.objects.create(user=user_instance,

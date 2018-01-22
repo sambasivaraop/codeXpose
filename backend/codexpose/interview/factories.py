@@ -18,3 +18,15 @@ class UserFactory(factory.Factory):
         model = User
 
     email = "abc@example.com"
+
+
+class QuestionFactory(factory.Factory):
+    class Meta:
+        model = Question
+    question_id = '1'
+    title = "Binary Search"
+    question_type = "Programming"
+    problem_statement = "test.txt"
+    test_cases = "test.py"
+    skeleton = "test_code.py"
+    marks = 100
