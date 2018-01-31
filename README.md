@@ -1,46 +1,32 @@
-# codeXpose
+# CodeXpose
 [![Build Status](https://travis-ci.org/inovizz/codeXpose.svg?branch=master)](https://travis-ci.org/inovizz/codeXpose)</br>
 An open source one-stop solution for conducting technical interviews.
 
+# Tech stack
+Django - The web framework<br>
+Python - The back-end language<br>
+ReactJS - Frontend
+
 # Getting Started
-These instructions will get you a copy of the project up and running on your local machine
-for development and testing purposes.
+Follow the below steps to get the development environment up and running.
 
-# Built With
-Django - The web framework<br />
-Python - The back-end language<br />
-Git - Version control system
+### Install Ansible
+`$ sudo apt-add-repository ppa:ansible/ansible`<br>
+`$ sudo apt-get update`<br>
+`$ sudo apt-get install ansible`<br>
 
-# Installation
-Follow the below steps to get a developement environment running.
+### Clone the repo
+`$ git clone https://github.com/inovizz/codeXpose.git`<br>
+`$ cd codeXpose`<br>
 
-First, Install git and ansible.
+### Execute the following playbook and shell script
+`$ ansible-playbook deploy.yml -K`<br>
+`$ . run_server.sh`<br>
 
-`sudo apt-add-repository ppa:ansible/ansible`
-
-`sudo apt-get update`
-
-`sudo apt-get install ansible`
-
-`sudo apt-get install git`
-
-Clone this repository & change into code directory.<br />
-
-`git clone https://github.com/inovizz/codeXpose.git`
-
-`cd codeXpose`
-
-Execute the ansible playbook.
-
-`ansible-playbook deploy.yml -K`
-
-Execute the following script.
-
-`. run_server.sh`
-
-After following the above steps, your server is running & default user is **admin@xyz.com**
-
+Now, the server should be running at - <br>
 `http://127.0.0.1:8000/`
+
+Note the default user is **admin@xyz.com**<br>
 
 # Contributing
 Please see [contribution](CONTRIBUTING.md).
