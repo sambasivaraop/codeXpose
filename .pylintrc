@@ -2,4 +2,4 @@
 load-plugins=pylint_django
 
 [MESSAGES CONTROL]
-disable=unused-argument, too-few-public-methods, no-self-use, fixme, too-many-ancestors, bare-except
+disable=unused-argument, too-few-public-methods, no-self-use, fixme, too-many-ancestors, bare-except, wildcard-import

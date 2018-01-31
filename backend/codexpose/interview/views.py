@@ -33,7 +33,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializers
     permission_classes = (UserViewSetPermission, )
 
-    @list_route(methods=['post'])
+    @list_route(methods=['post'], permission_classes=(),)
     def login(self, request):
         """
         login for any valid user.

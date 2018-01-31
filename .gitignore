@@ -103,7 +103,7 @@ ENV/
 # migration
 migrations/
 
-*.gitignore*
-
-#pycharm config file
-.idea/
+*.gitignore
+*.idea*
+media/
+staticfiles/
