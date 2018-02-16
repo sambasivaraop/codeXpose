@@ -18,7 +18,7 @@ class User(AbstractBaseUser):
     user_type = models.CharField(max_length=20,
                                  choices=type_choice,
                                  default='INTERVIEWER')
-    is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -37,11 +37,6 @@ class User(AbstractBaseUser):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
-
-    @property
-    def is_staff(self):
-        """Is the user a member of staff?"""
-        return self.is_admin
 
 
 def question_data_path(instance, filename):
@@ -72,7 +67,7 @@ class Test(models.Model):
         ('PROGRAMMING', 'Programming'),
         ('MCQ', 'MCQ'),
     )
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, unique=True)
     test_type = models.CharField(max_length=20, choices=type_choice,
                                  default='PROGRAMMING')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)

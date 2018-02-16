@@ -1,5 +1,9 @@
 """Define set of permissions."""
+import logging
+
 from rest_framework import permissions
+
+LOGGER = logging.getLogger(__name__)
 
 
 class UserViewSetPermission(permissions.BasePermission):
@@ -9,6 +13,7 @@ class UserViewSetPermission(permissions.BasePermission):
         user = request.user
         if user.user_type == 'INTERVIEWER':
             return True
+        LOGGER.debug("User type is not Interviewer, returning false")
         return False
 
     def has_object_permission(self, request, view, obj):
@@ -23,6 +28,8 @@ class QuestionViewSetPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         user = request.user
         if user.user_type != 'INTERVIEWER':
+            LOGGER.debug("%s is invalid user operation for Question object "
+                         "by %s", request.method, user.user_type)
             return False
         return True
 
@@ -36,6 +43,8 @@ class TestViewSetPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         user = request.user
         if user.user_type != 'INTERVIEWER':
+            LOGGER.debug("%s is invalid user operation for Test object by "
+                         "%s.", request.method, user.user_type)
             return False
         return True
 

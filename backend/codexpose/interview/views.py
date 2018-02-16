@@ -1,4 +1,5 @@
 """Views file for Interview App."""
+import logging
 import requests
 
 from django.conf import settings
@@ -13,6 +14,7 @@ from .permissions import UserViewSetPermission, QuestionViewSetPermission, \
     TestViewSetPermission
 
 TOKEN_GET_ENDPOINT = 'http://localhost:8000/api-token-auth/'
+LOGGER = logging.getLogger(__name__)
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
@@ -61,22 +63,26 @@ class UserViewSet(viewsets.ModelViewSet):
         email = request.data.get('email', None)
         password = request.data.get('password', None)
         if email is None and password is None:
+            LOGGER.error("Either email or password not passed.")
             return Response(
                 data="Please enter a valid email address and password",
                 status=status.HTTP_400_BAD_REQUEST)
         data = {'email': email, 'password': password}
         resp = requests.post(url=TOKEN_GET_ENDPOINT, data=data)
         if resp.status_code != 200:
+            LOGGER.error("Invalid credential. Login failed.")
             return Response(data="Invalid Credential",
                             status=status.HTTP_401_UNAUTHORIZED)
         print(resp.text)
+        LOGGER.debug("Login successful.")
         return Response(resp.text, status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
         """create the user and put user test mapping in database."""
         if request.data.get('user_type', None) == "CANDIDATE":
-            test_id = request.data.get('test_id', None)
+            test_id = request.data.get('test', None)
             if test_id is None:
+                LOGGER.error("Test ID not passed with Candidate type user.")
                 return Response(
                     data="Please select a test",
                     status=status.HTTP_400_BAD_REQUEST
@@ -87,9 +93,12 @@ class UserViewSet(viewsets.ModelViewSet):
             test_instance = Test.objects.get(id=test_id)
             _ = CandidateTestMapping.objects.create(candidate=user_instance,
                                                     test=test_instance)
+            LOGGER.debug("Candidate created successfully, associated with "
+                         "Test ID %s", test_id)
             return resp
         else:
             resp = super(UserViewSet, self).create(request, *args, **kwargs)
+            LOGGER.debug("Interviewer created successfully.")
             return resp
 
 

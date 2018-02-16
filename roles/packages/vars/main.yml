@@ -1,7 +1,7 @@
 ---
 # vars file for packages
 
-{ 'mysql_user': 'dev',
-  'mysql_user_pass': 'abc@1234',
-  'mysql_root_pass': '******'
+{ 
+  'mysql_user': 'dev',
+  'mysql_user_pass': 'abc@1234'
 }

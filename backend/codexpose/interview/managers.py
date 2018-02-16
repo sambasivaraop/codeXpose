@@ -1,7 +1,6 @@
 """Manager class implementation to create Custom Auth User."""
 from django.contrib.auth.models import BaseUserManager
 
-
 class UserManager(BaseUserManager):
     """
     User manager class to handle the creation of users.
@@ -27,7 +26,11 @@ class UserManager(BaseUserManager):
         :param password: password
         :return: User instance
         """
-        return self._create_user(email, password)
+        user = self._create_user(email, password)
+        if user.user_type == "CANDIDATE":
+            user.is_staff = False
+            user.save(using=self._db)
+        return user
 
     def create_superuser(self, email, password):
         """
@@ -37,6 +40,6 @@ class UserManager(BaseUserManager):
         :return: user instance
         """
         user = self._create_user(email, password)
-        user.is_admin = True
+        user.is_staff = True
         user.save(using=self._db)
         return user
