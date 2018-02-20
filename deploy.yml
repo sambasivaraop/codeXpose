@@ -2,6 +2,12 @@
 
  - hosts: localhost
    sudo: yes
+
+   vars_prompt:
+     - name: "mysql_root_pass"
+       prompt: "Please enter mysql root password"
+       private: yes
+
    roles:
      - initial-setup
      - packages

@@ -1,3 +1,9 @@
-cd backend/codeXpose
-source virtual/bin/activate
-./virtual/bin/python manage.py runserver &
+# make log directories
+mkdir /var/log/django
+chmod -R 777 /var/log/django
+mkdir /var/log/django/codexpose
+
+#Activate virtual environment & start the server
+source ./virtual/bin/activate
+./virtual/bin/python backend/codexpose/manage.py runserver &
+cd backend/codexpose

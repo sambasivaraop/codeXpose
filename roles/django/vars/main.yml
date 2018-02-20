@@ -1,8 +1,8 @@
 ---
 {
- 'virtualenv_dir': './backend/codeXpose/virtual',
- 'django_dir': './backend/codeXpose', 
- 'requirements_file': './backend/codeXpose/requirements.txt', 
- 'django_settings_file': './backend/codeXpose/codeXpose/settings.py',
+ 'virtualenv_dir': './virtual',
+ 'django_dir': './backend/codexpose', 
+ 'requirements_file': './backend/codexpose/requirements.txt', 
+ 'django_settings_file': './backend/codexpose/codexpose/settings.py',
  'admin_email': 'admin@xyz.com'
 }

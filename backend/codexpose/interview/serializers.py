@@ -8,8 +8,7 @@ class QuestionSerializers(serializers.ModelSerializer):
     class Meta:
         """Meta class for QuestionSerializer."""
         model = Question
-        fields = ('question_id', 'title', 'question_type', 'problem_statement',
-                  'skeleton')
+        fields = '__all__'
 
 
 class UserSerializers(serializers.ModelSerializer):
@@ -31,9 +30,9 @@ class UserSerializers(serializers.ModelSerializer):
 
 class TestSerializers(serializers.ModelSerializer):
     """Serializer class for Test model."""
-    question = QuestionSerializers(many=True)
+    question = QuestionSerializers(many=True, read_only=True)
 
     class Meta:
         """Meta class for TestSerializer."""
         model = Test
-        fields = ('title', 'duration', 'question')
+        fields = '__all__'
