@@ -63,15 +63,15 @@ class UserViewSet(viewsets.ModelViewSet):
         email = request.data.get('email', None)
         password = request.data.get('password', None)
         if email is None and password is None:
-            LOGGER.error("Either email or password not passed.")
+            LOGGER.error("Either email or password not matched.")
             return Response(
                 data="Please enter a valid email address and password",
                 status=status.HTTP_400_BAD_REQUEST)
         data = {'email': email, 'password': password}
         resp = requests.post(url=TOKEN_GET_ENDPOINT, data=data)
         if resp.status_code != 200:
-            LOGGER.error("Invalid credential. Login failed.")
-            return Response(data="Invalid Credential",
+            LOGGER.error("Invalid credentials, Login failed!.")
+            return Response(data="Invalid Credentials",
                             status=status.HTTP_401_UNAUTHORIZED)
         print(resp.text)
         LOGGER.debug("Login successful.")

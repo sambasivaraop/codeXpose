@@ -209,7 +209,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': '/var/log/django/codexpose/codexpose.log',
-            'maxBytes' : 1024*1024*100, # 100MB
+            'maxBytes': 1024*1024*100,  # 100MB
             'backupCount': 5,
             'formatter': 'verbose'
         },

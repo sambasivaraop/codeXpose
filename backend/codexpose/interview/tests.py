@@ -11,7 +11,7 @@ class UserViewSetTest(APITestCase):
     """ Test class for testing UserViewSet APIs."""
 
     def setUp(self):
-        """Method to prepare setup for every test"""
+        """Method to prepare setup for every test."""
         self.user = User.objects.create_user(email='testuser@example.com',
                                              password='test12345')
 
@@ -251,26 +251,3 @@ class TestViewSetTest(APITestCase):
         response = self.client.delete('/interview/test/%s/' % test_id)
         self.assertEqual(response.status_code, 403)
         self.assertEqual(Test.objects.count(), 1)
-
-
-class QuestionViewSetTest(APITestCase):
-    """Test class for testing QuestionViewSet APIs."""
-
-    def setUp(self):
-        """Method to prepare setup for every test"""
-        self.user = User.objects.create_user(email='testuser@example.com',
-                                             password='test12345')
-
-    def test_question_creation(self):
-        """To test question create API."""
-        self.client.login(email='testuser@example.com', password='test12345')
-        with open('/home/arunv/Documents/file1.py') as fp1, \
-                open('/home/arunv/Documents/file2.py') as fp2, \
-                open('/home/arunv/Documents/file3.py') as fp3:
-            response = self.client.post('/interview/question/',
-                                        {'title': 'Dev', 'question_id': '1',
-                                         'question_type': 'Programming',
-                                         'problem_statement': fp1,
-                                         'test_cases': fp2,
-                                         'skeleton': fp3, 'marks': 100})
-        self.assertEqual(response.status_code, 201)
