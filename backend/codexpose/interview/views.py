@@ -8,8 +8,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import list_route
 
-from .models import Question, User, Test, CandidateTestMapping
-from .serializers import QuestionSerializers, UserSerializers, TestSerializers
+from .models import Question, User, Test, CandidateTestMapping, \
+    CandidateResult, CandidateSolution
+from .serializers import QuestionSerializers, UserSerializers, \
+    TestSerializers, CandidateTestMappingSerializer, \
+    CandidateResultSerializer, CandidateSolutionSerializer
 from .permissions import UserViewSetPermission, QuestionViewSetPermission, \
     TestViewSetPermission
 
@@ -81,25 +84,29 @@ class UserViewSet(viewsets.ModelViewSet):
         """create the user and put user test mapping in database."""
         if request.data.get('user_type', None) == "CANDIDATE":
             test_id = request.data.get('test', None)
-            if test_id is None:
-                LOGGER.error("Test ID not passed with Candidate type user.")
-                return Response(
-                    data="Please select a test",
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-            resp = super(UserViewSet, self).create(request, *args, **kwargs)
-            user_id = resp.data.get('id', None)
-            user_instance = User.objects.get(id=user_id)
-            test_instance = Test.objects.get(id=test_id)
-            _ = CandidateTestMapping.objects.create(candidate=user_instance,
-                                                    test=test_instance)
-            LOGGER.debug("Candidate created successfully, associated with "
-                         "Test ID %s", test_id)
-            return resp
+            if test_id is not None:
+                resp = super(UserViewSet, self).create(request, *args,
+                                                       **kwargs)
+                user_id = resp.data.get('id', None)
+                user_instance = User.objects.get(id=user_id)
+                test_instance = Test.objects.get(id=test_id)
+                _ = CandidateTestMapping.objects.create(
+                    candidate=user_instance, test=test_instance)
+                LOGGER.debug("Candidate created successfully, associated "
+                             "with Test ID %s", test_id)
+                return resp
+            return super(UserViewSet, self).create(request, *args, **kwargs)
         else:
             resp = super(UserViewSet, self).create(request, *args, **kwargs)
             LOGGER.debug("Interviewer created successfully.")
             return resp
+
+    def perform_create(self, serializer):
+        """ To set is_staff flag if user is interviewer"""
+        if self.request.data.get('user_type', None) == 'CANDIDATE':
+            serializer.save(is_staff=False)
+        else:
+            serializer.save()
 
 
 class TestViewSet(viewsets.ModelViewSet):
@@ -114,3 +121,30 @@ class TestViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """To populate the created_by field by current logged in user."""
         serializer.save(created_by=self.request.user)
+
+
+class CandidateTestMappingViewSet(viewsets.ModelViewSet):
+    """
+    CandidateTestMapping view set to create, retrieve, update and delete
+    mapping object.
+    """
+    queryset = CandidateTestMapping.objects.all()
+    serializer_class = CandidateTestMappingSerializer
+
+
+class CandidateResultViewSet(viewsets.ModelViewSet):
+    """
+    CandidateResult view set to create, retrieve, update and delete result
+    object.
+    """
+    queryset = CandidateResult.objects.all()
+    serializer_class = CandidateResultSerializer
+
+
+class CandidateSolutionViewSet(viewsets.ModelViewSet):
+    """
+    CandidateSolution view set to create, retrieve, update and delete solution
+    object.
+    """
+    queryset = CandidateSolution.objects.all()
+    serializer_class = CandidateSolutionSerializer

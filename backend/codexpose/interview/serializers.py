@@ -1,6 +1,7 @@
 """Serializer class for Questions and User."""
 from rest_framework import serializers
-from .models import Question, User, Test
+from .models import Question, User, Test, CandidateTestMapping, \
+    CandidateSolution, CandidateResult
 
 
 class QuestionSerializers(serializers.ModelSerializer):
@@ -35,4 +36,25 @@ class TestSerializers(serializers.ModelSerializer):
     class Meta:
         """Meta class for TestSerializer."""
         model = Test
+        fields = '__all__'
+
+
+class CandidateTestMappingSerializer(serializers.ModelSerializer):
+    """Serializer class for CandidateTestMapping model"""
+    class Meta:
+        model = CandidateTestMapping
+        fields = '__all__'
+
+
+class CandidateResultSerializer(serializers.ModelSerializer):
+    """Serializer class for CandidateResult model"""
+    class Meta:
+        model = CandidateResult
+        fields = '__all__'
+
+
+class CandidateSolutionSerializer(serializers.ModelSerializer):
+    """Serializer class for CandidateSolution model"""
+    class Meta:
+        model = CandidateSolution
         fields = '__all__'

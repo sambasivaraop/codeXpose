@@ -4,7 +4,8 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from . models import Test, Question, User, CandidateTestMapping
+from . models import Test, Question, User, CandidateTestMapping, \
+    CandidateResult, CandidateSolution
 
 
 class CandidateTestMappingForm(forms.ModelForm):
@@ -37,7 +38,7 @@ class UserCreationForm(forms.ModelForm):
         fields = ('email', 'first_name', 'last_name', 'user_type')
 
     def clean_password2(self):
-        """Method to check that the two password entries match"""
+        """Method to check that the two password entries match."""
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
@@ -45,7 +46,7 @@ class UserCreationForm(forms.ModelForm):
         return password2
 
     def save(self, commit=True):
-        # Save the provided password in hashed format
+        """Save the provided password in hashed format."""
         user = super(UserCreationForm, self).save(commit=False)
         if user.user_type == 'CANDIDATE':
             user.is_staff = False
@@ -60,30 +61,19 @@ class UserCreationForm(forms.ModelForm):
 
 
 class UserChangeForm(forms.ModelForm):
-    """A form for updating users. Includes all the fields on
-    the user, but replaces the password field with admin's
-    password hash display field.
-    """
+    """A form for updating users."""
     password = ReadOnlyPasswordHashField()
 
     class Meta:
         model = User
         fields = ('email', 'first_name', 'last_name', 'user_type')
 
-    # def clean_password(self):
-    #     # Regardless of what the user provides, return the initial value.
-    #     # This is done here, rather than on the field, because the
-    #     # field does not have access to the initial value
-    #     return self.initial["email"]
-
 
 class MyUserAdmin(BaseUserAdmin):
-    """Custom admin page for User model"""
+    """Custom admin class for User model"""
     form = UserChangeForm
     add_form = UserCreationForm
-    # The fields to be used in displaying the User model.
-    # These override the definitions on the base UserAdmin
-    # that reference specific fields on auth.User.
+
     list_display = ('email', 'first_name', 'last_name', 'user_type',
                     'is_staff')
     list_filter = ('user_type',)
@@ -103,7 +93,28 @@ class MyUserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
+class CandidateResultAdmin(admin.ModelAdmin):
+    """Candidate Result Admin class to list-display/filter."""
+
+    list_display = ('candidate_test_mapping', 'scored_marks', 'feedback',
+                    'decision')
+    list_filter = ('decision',)
+
+
+class CandidateSolutionAdmin(admin.ModelAdmin):
+    """Candidate Solution Admin class to list-display/filter."""
+
+    def marks(self, instance):
+        """Method to get question's max marks."""
+        return instance.question.marks
+
+    list_display = ('candidate_result', 'question', 'solution', 'marks',
+                    'scored_marks', 'feedback')
+
+
 admin.site.register(Test)
 admin.site.register(Question)
 admin.site.register(User, MyUserAdmin)
 admin.site.register(CandidateTestMapping, MyCandidateTestMappingAdmin)
+admin.site.register(CandidateResult, CandidateResultAdmin)
+admin.site.register(CandidateSolution, CandidateSolutionAdmin)
