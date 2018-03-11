@@ -1,0 +1,34 @@
+#docker-compose.yml
+version: "3.5"
+services:
+  # define your DB service - mysql
+  db:
+    image: mysql
+    environment:
+      # required mysql config, should be in sync with django settings
+      - MYSQL_ROOT_PASSWORD=pass
+      - MYSQL_DATABASE=codexpose
+      - MYSQL_USER=dev
+      - MYSQL_PASSWORD=abc@1234
+    networks:
+      - main  # Add the container to the network "main"
+  web:
+    # point build to current dir, so that it can pick Dockerfile for web image
+    build: .
+    # Added sleep to make sure MySql service is ready - FIXME
+    command: >
+      bash -c "sleep 20
+      && python backend/codexpose/manage.py makemigrations interview
+      && python backend/codexpose/manage.py migrate
+      && python backend/codexpose/manage.py createsuperuser
+      && python backend/codexpose/manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    networks:
+      - main  # Add the container to the network "main"
+    depends_on:
+      - db
+networks:
+  main:

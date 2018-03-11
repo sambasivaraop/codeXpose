@@ -84,7 +84,7 @@ DATABASES = {
         'TEST_NAME': 'test_codexpose',
         'USER': 'dev',
         'PASSWORD': 'abc@1234',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '3306'
     }
 }
