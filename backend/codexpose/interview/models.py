@@ -115,7 +115,7 @@ class CandidateResult(models.Model):
                                                   on_delete=models.CASCADE)
     scored_marks = models.IntegerField(default=0)
     feedback = models.TextField(blank=True, null=True)
-    decision = models.CharField(max_length=20, blank=True, null=True)
+    is_shortlisted = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.candidate_test_mapping)
