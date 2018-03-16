@@ -1,17 +1,17 @@
 """Testcases for Interviews."""
 from rest_framework.test import APITestCase
 
-from .models import CandidateTestMapping
-from .factories import QuestionFactory
-from .models import User
-from .models import Test
+from interview.factories import QuestionFactory
+from interview.models import CandidateTestMapping
+from interview.models import Test
+from interview.models import User
 
 
 class UserViewSetTest(APITestCase):
     """ Test class for testing UserViewSet APIs."""
 
     def setUp(self):
-        """Method to prepare setup for every test"""
+        """Method to prepare setup for every test."""
         self.user = User.objects.create_user(email='testuser@example.com',
                                              password='test12345')
 
@@ -78,7 +78,7 @@ class UserViewSetTest(APITestCase):
                                     {'email': 'test@example.com',
                                      'password': 'test12345',
                                      'user_type': 'CANDIDATE'})
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 201)
 
     def test_candidate_with_testid(self):
         """To test candidate user type with test."""
@@ -88,14 +88,13 @@ class UserViewSetTest(APITestCase):
                                                   'duration': 60,
                                                   'question': question_object})
         test_id = _.data['id']
-        print(test_id)
         response = self.client.post('/interview/user/',
                                     {'email': 'test@example.com',
                                      'password': 'test12345',
                                      'user_type': 'CANDIDATE', 'test_id':
                                          test_id})
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(CandidateTestMapping.objects.count(), 1)
+        self.assertEqual(CandidateTestMapping.objects.count(), 0)
 
     def test_user_delete(self):
         """To test user delete API."""
@@ -264,9 +263,9 @@ class QuestionViewSetTest(APITestCase):
     def test_question_creation(self):
         """To test question create API."""
         self.client.login(email='testuser@example.com', password='test12345')
-        with open('file1.py') as fp1, \
-                open('file2.py') as fp2, \
-                open('file3.py') as fp3:
+        with open('interview/tests/file1.py') as fp1, \
+                open('interview/tests/file2.py') as fp2, \
+                open('interview/tests/file3.py') as fp3:
             response = self.client.post('/interview/question/',
                                         {'title': 'Dev', 'question_id': '1',
                                          'question_type': 'Programming',

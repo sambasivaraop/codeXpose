@@ -97,8 +97,8 @@ class CandidateResultAdmin(admin.ModelAdmin):
     """Candidate Result Admin class to list-display/filter."""
 
     list_display = ('candidate_test_mapping', 'scored_marks', 'feedback',
-                    'decision')
-    list_filter = ('decision',)
+                    'is_shortlisted')
+    list_filter = ('is_shortlisted',)
 
 
 class CandidateSolutionAdmin(admin.ModelAdmin):
