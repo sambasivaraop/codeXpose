@@ -110,3 +110,12 @@ media/
 staticfiles/
 
 setup.cfg
+
+# FRONT END
+frontend/README.md
+frontend/package-lock.json
+frontend/src/*.css
+frontend/src/components/
+frontend/src/logo.svg
+frontend/src/App.test.js
+frontend/src/registerServiceWorker.js
