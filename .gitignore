@@ -108,6 +108,7 @@ migrations/
 *.idea*
 media/
 staticfiles/
+static/
 
 setup.cfg
 
