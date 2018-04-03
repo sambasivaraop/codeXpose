@@ -44,7 +44,8 @@ class QuestionViewSet(viewsets.ModelViewSet):
             problem_statement = question_fp.read()
         with open(skeleton_path) as skeleton_fp:
             skeleton = skeleton_fp.read()
-        data = {'Problem Statement': problem_statement, 'Function': skeleton}
+        data = {'problem_statement': problem_statement, 'function': skeleton,
+                'title': serializer.data['title']}
         return Response(data)
 
 

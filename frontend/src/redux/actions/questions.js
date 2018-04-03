@@ -1,2 +1,5 @@
-export const ADD_QUESTION = "ADD_QUESTION";
+/******* QUESTION ACTIONS *********/
+
+// export const ADD_QUESTION = "ADD_QUESTION";
 export const SET_QUESTIONS = "SET_QUESTIONS";
+export const CHANGE_QUESTION_STATUS = "CHANGE_QUESTION_STATUS";
