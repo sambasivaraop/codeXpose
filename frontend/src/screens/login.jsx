@@ -33,7 +33,7 @@ class Login extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const { username, password } = this.state;
-    this.props.login(username, password);
+    this.props.login({ username, password });
   };
   render() {
     var style = {

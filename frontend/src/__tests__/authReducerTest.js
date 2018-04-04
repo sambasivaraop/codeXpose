@@ -8,27 +8,29 @@ describe("auth reducer", () => {
     expect(loginReducers.authError(undefined, {})).toEqual("");
   });
   it("should set the auth pending state", () => {
-    expect(
-      loginReducers.authPending(null, {
-        type: action_type.LOGIN_PENDING,
-        payload: { isPending: true }
-      })
-    ).toEqual(true);
+    const initialState = null;
+    const action = {
+      type: action_type.LOGIN_PENDING,
+      payload: { isPending: true }
+    };
+    expect(loginReducers.authPending(initialState, action)).toEqual(true);
   });
   it("should set the auth token state", () => {
-    expect(
-      loginReducers.authToken("", {
-        type: action_type.LOGIN_SUCCESS,
-        payload: { token: "abc" }
-      })
-    ).toEqual("abc");
+    const initialState = "";
+    const action = {
+      type: action_type.LOGIN_SUCCESS,
+      payload: { token: "abc" }
+    };
+    expect(loginReducers.authToken(initialState, action)).toEqual("abc");
   });
   it("should set auth error state", () => {
-    expect(
-      loginReducers.authError("", {
-        type: action_type.LOGIN_FAIL,
-        payload: { error: "Syntax Error: Unexpected Token" }
-      })
-    ).toEqual("Syntax Error: Unexpected Token");
+    const initialState = "";
+    const action = {
+      type: action_type.LOGIN_FAIL,
+      payload: { error: "Syntax Error: Unexpected Token" }
+    };
+    expect(loginReducers.authError(initialState, action)).toEqual(
+      "Syntax Error: Unexpected Token"
+    );
   });
 });

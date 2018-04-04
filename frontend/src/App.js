@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-import { AuthRoutesOutlet } from './layouts/AuthRoutesOutlet';
-import { Container, Row, Col } from 'reactstrap';
-
+import React, { Component } from "react";
+import { AuthRoutesOutlet } from "./layouts/AuthRoutesOutlet";
+import { Container, Row, Col } from "reactstrap";
 
 class App extends Component {
   render() {
-    const style = {}
+    const style = {};
     return (
       <div style={style}>
         <Container>
@@ -16,7 +15,6 @@ class App extends Component {
           </Row>
         </Container>
       </div>
-
     );
   }
 }

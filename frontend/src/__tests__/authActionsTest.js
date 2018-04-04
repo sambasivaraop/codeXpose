@@ -18,8 +18,7 @@ describe("sync actions", () => {
     expect(actions.login_pending(isPending)).toEqual(expectedAction);
   });
   it("should create an action for login success", () => {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o";
+    const token = "abc";
     const expectedAction = {
       type: action_type.LOGIN_SUCCESS,
       payload: { token }
@@ -52,6 +51,10 @@ describe("async login action", () => {
       email: "abc@xyz.com",
       password: "abcxyz"
     };
+    const params = {
+      username: payload.email,
+      password: payload.password
+    };
     mock
       .onPost(login_api, payload)
       .reply(200, JSON.stringify(`{ "token": "abc" }`), {
@@ -68,7 +71,7 @@ describe("async login action", () => {
       authToken: "",
       authError: ""
     });
-    store.dispatch(actions.login(payload.email, payload.password)).then(() => {
+    store.dispatch(actions.login(params)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
