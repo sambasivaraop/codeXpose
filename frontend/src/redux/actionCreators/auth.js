@@ -16,7 +16,7 @@ export const login_fail = error => ({
   payload: { error }
 });
 
-export const login = (username, password) => async (dispatch, getState) => {
+export const login = ({ username, password }) => async (dispatch, getState) => {
   try {
     let payload = {
       email: username,
@@ -24,8 +24,8 @@ export const login = (username, password) => async (dispatch, getState) => {
     };
     dispatch(login_pending(true));
 
-    const response = await authApi.login(payload);
-    const data = JSON.parse(response.data);
+    const data = await authApi.login(payload);
+    // const data = JSON.parse(response.data);
     dispatch(login_pending(false));
     dispatch(login_success(data.token));
   } catch (error) {
