@@ -2,22 +2,9 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import {
-  Card,
-  CardTitle,
-  Button,
-  ButtonGroup,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter
-} from "reactstrap";
+import { Card, Button } from "reactstrap";
 
 export class test extends Component {
   constructor(props) {
@@ -28,31 +15,7 @@ export class test extends Component {
     };
   }
 
-  handleSubmit = event => {};
-
-  handleQuestionStatusButton = event => {
-    event.preventDefault();
-    console.log("Button ID is :", event.target.id);
-    this.setState({
-      redirectToQuestion: true,
-      question_id: event.target.id
-    });
-  };
-
   handleTestSubmit = event => {};
-
-  // handleQuestionSubmit = event => {
-  //   //Save the code
-  //   // dispatch();
-  //   console.log("In submit");
-  //   this.setState({
-  //     openModal: !this.state.openModal
-  //   });
-  // };
-
-  handleQuestionRun = event => {};
-
-  handleInputChange = event => {};
 
   render() {
     var style = {
@@ -62,43 +25,24 @@ export class test extends Component {
       backgroundColor: "rgba(255,255,255,.4)"
     };
 
-    if (this.state.redirectToQuestion) {
-      return <Redirect to={"/question/" + this.state.question_id} />;
-    }
-
     let question = [];
-    // console.log(this.props.questions.length);
     for (var i = 0; i < this.props.questions.length; i++) {
-      console.log("Question ID is :", this.props.questions[i].ques_id);
       question.push(
         <div className="row">
           <div className="col-8">
             <ol>
-              <li> {this.props.questions[i].title} </li>
+              <li>{this.props.questions[i].title} </li>
             </ol>
           </div>
           <div className="col-4">
             <center>
-              {this.props.questions[i].isSolved ? (
-                <Button
-                  id={this.props.questions[i].ques_id}
-                  type="submit"
-                  onClick={this.handleQuestionStatusButton}
-                >
-                  Solved
+              <Link to={"/question/" + this.props.questions[i].id}>
+                <Button id={this.props.questions[i].id} type="submit">
+                  Solve
                 </Button>
-              ) : (
-                <Button
-                  id={this.props.questions[i].ques_id}
-                  type="submit"
-                  onClick={this.handleQuestionStatusButton}
-                >
-                  Unsolved
-                </Button>
-              )}
+              </Link>
             </center>
           </div>
-          {/* <h2> I am inside Candidate Test Page! </h2> */}
         </div>
       );
     }

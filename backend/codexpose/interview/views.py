@@ -123,6 +123,23 @@ class TestViewSet(viewsets.ModelViewSet):
         """To populate the created_by field by current logged in user."""
         serializer.save(created_by=self.request.user)
 
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        # print(serializer.data)
+        for question in serializer.data['question']:
+            question_path = settings.MEDIA_ROOT + '/' + '/'.join(
+                question['problem_statement'].split('/')[-2:])
+            skeleton_path = settings.MEDIA_ROOT + '/' + '/'.join(
+                question['skeleton'].split('/')[-2:])
+            with open(question_path) as question_fp:
+                problem_statement = question_fp.read()
+            with open(skeleton_path) as skeleton_fp:
+                skeleton = skeleton_fp.read()
+            question['problem_statement'] = problem_statement
+            question['skeleton'] = skeleton
+        return Response(serializer.data)
+
 
 class CandidateTestMappingViewSet(viewsets.ModelViewSet):
     """

@@ -5,5 +5,5 @@ import Question from "../screens/question";
 export const candidateRoutes = [
   { path: "/guidelines", component: AcceptTest },
   { path: "/test", component: test },
-  { path: "/question", component: Question }
+  { path: "/question/:id", component: Question }
 ];

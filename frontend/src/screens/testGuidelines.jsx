@@ -4,35 +4,19 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { getTest } from "../redux/actionCreators/test";
 
-import {
-  Card,
-  CardTitle,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText
-} from "reactstrap";
+import { Card, CardTitle, Button, FormGroup } from "reactstrap";
 
 export class AcceptTest extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAccept: false,
-      redirectToTest: false
+      isAccept: false
     };
-
-    // this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   handleSubmit = event => {
     event.preventDefault();
     this.props.getTest(1);
-    // redirectToTest
-    this.setState({
-      redirectToTest: true
-    });
   };
 
   handleInputChange = event => {
@@ -48,10 +32,6 @@ export class AcceptTest extends Component {
       width: "85%",
       backgroundColor: "rgba(255,255,255,.4)"
     };
-
-    if (this.state.redirectToTest) {
-      return <Redirect to="/test" />;
-    }
 
     return (
       <Card body style={style}>

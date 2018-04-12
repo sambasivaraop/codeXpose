@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import {
   Button,
   Card,
@@ -6,14 +8,17 @@ import {
   CardTitle,
   Form,
   FormGroup,
-  Label,
-  Col,
-  Input
+  Col
 } from "reactstrap";
 
-export default class Question extends Component {
+export class Question extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
-    console.log(this.props.id);
+    let question_id = this.props.location.pathname.split("/")[2];
+    let question = this.props.questions.find(obj => obj.id == question_id);
+
     var style = {
       marginTop: "7%",
       marginLeft: "15%",
@@ -22,20 +27,17 @@ export default class Question extends Component {
     };
     return (
       <Card style={style}>
-        <CardTitle>Problem Statement</CardTitle>
+        <CardTitle> {question.title} </CardTitle>
         <CardBody>
           <Form>
             <FormGroup>
-              <p> I am inside Question! </p>
+              <p> {question.problem_statement} </p>
             </FormGroup>
             <FormGroup row>
               <Col sm={12}>
-                <textarea
-                  cols="125"
-                  rows="10"
-                  name="text"
-                  placeholder="Your solution goes here...."
-                />
+                <textarea cols="125" rows="10" name="text">
+                  {question.skeleton}
+                </textarea>
               </Col>
             </FormGroup>
             <FormGroup check row>
@@ -49,3 +51,15 @@ export default class Question extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    questions: state.questions
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Question);

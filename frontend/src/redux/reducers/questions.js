@@ -1,5 +1,4 @@
 import * as questionsActions from "../actions/questions";
-import { questionsStore } from "../store/questions";
 
 export const questionsReducers = {
   questions: (state = [], action) => {

@@ -1,6 +1,8 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import { appReducer, authReducer } from "../reducers";
 import thunk from "redux-thunk";
+import createHistory from "history/createBrowserHistory";
+import { routerMiddleware, routerReducer } from "react-router-redux";
 import { questionsStore } from "./questions";
 import { authStore } from "./auth";
 import { testStore } from "./test";
@@ -12,7 +14,8 @@ const initalState = {
 };
 export const rootReducers = combineReducers({
   ...appReducer,
-  ...authReducer
+  ...authReducer,
+  router: routerReducer
 });
 
 const composeEnhancers =
@@ -22,6 +25,10 @@ const composeEnhancers =
       })
     : compose;
 
-const middlewares = composeEnhancers(applyMiddleware(thunk));
+export const history = createHistory();
+
+const middlewares = composeEnhancers(
+  applyMiddleware(thunk, routerMiddleware(history))
+);
 
 export const store = createStore(rootReducers, initalState, middlewares);

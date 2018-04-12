@@ -35,11 +35,11 @@ class Login extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const { username, password } = this.state;
-    this.props.login(username, password);
+    this.props.login({ username, password });
     //redirect to guideline page
-    this.setState({
-      redirect: true
-    });
+    // this.setState({
+    //   redirect: true
+    // });
   };
   render() {
     var style = {
@@ -48,9 +48,9 @@ class Login extends Component {
       width: "35%",
       backgroundColor: "rgba(255,255,255,.4)"
     };
-    if (this.state.redirect && this.props.token !== "") {
-      return <Redirect to="/guidelines" />;
-    }
+    // if (this.state.redirect && this.props.token !== "") {
+    //   return <Redirect to="/guidelines" />;
+    // }
     return (
       <Card body style={style}>
         <img
