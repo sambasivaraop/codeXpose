@@ -1,9 +1,9 @@
-import AcceptTest from "../screens/testGuidelines";
-import test from "../screens/test";
+import TestGuideline from "../screens/testGuidelines";
+import Test from "../screens/test";
 import Question from "../screens/question";
 
 export const candidateRoutes = [
-  { path: "/guidelines", component: AcceptTest },
-  { path: "/test", component: test },
+  { path: "/guidelines", component: TestGuideline },
+  { path: "/test", component: Test },
   { path: "/question/:id", component: Question }
 ];

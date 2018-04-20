@@ -3,27 +3,28 @@ import { testApi } from "../../api/test";
 import { getQuestion } from "../actionCreators/questions";
 import { setQuestions } from "../actionCreators/questions";
 import { push } from "react-router-redux";
-export const test_pending = pending => ({
+
+export const testPending = pending => ({
   type: test_actions.TEST_PENDING,
   payload: { pending }
 });
 
-export const test_completed = completed => ({
+export const testCompleted = completed => ({
   type: test_actions.TEST_COMPLETED,
   payload: { completed }
 });
 
-export const test_get_pending = isPending => ({
+export const testGetPending = isPending => ({
   type: test_actions.TEST_GET_PENDING,
   payload: { isPending }
 });
 
-export const test_get_success = test_data => ({
+export const testGetSuccess = test_data => ({
   type: test_actions.TEST_GET_SUCCESS,
   payload: { test_data }
 });
 
-export const test_get_fail = error => ({
+export const testGetFail = error => ({
   type: test_actions.TEST_GET_FAIL,
   payload: { error }
 });
@@ -35,21 +36,19 @@ export const getTest = test_id => async (dispatch, getState) => {
     let headers = {
       headers: { Authorization: token }
     };
-    // dispatch(test_pending(true));
-    dispatch(test_get_pending(true));
+    dispatch(testGetPending(true));
 
     const response = await testApi.getTest(headers, test_id);
     const data = response.data;
-    console.log(data);
 
     // Get questions associated with test and save in store
     dispatch(setQuestions(data.question));
 
-    dispatch(test_get_pending(false));
-    dispatch(test_get_success(data));
+    dispatch(testGetPending(false));
+    dispatch(testGetSuccess(data));
     dispatch(push("/test"));
   } catch (error) {
-    dispatch(test_get_pending(false));
-    dispatch(test_get_fail(error));
+    dispatch(testGetPending(false));
+    dispatch(testGetFail(error));
   }
 };

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-export class userCreate extends Component {
+export class CreateUserForm extends Component {
   constructor(props) {
     super(props);
   }

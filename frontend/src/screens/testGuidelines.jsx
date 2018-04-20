@@ -6,7 +6,14 @@ import { getTest } from "../redux/actionCreators/test";
 
 import { Card, CardTitle, Button, FormGroup } from "reactstrap";
 
-export class AcceptTest extends Component {
+var style = {
+  marginTop: "10%",
+  marginLeft: "15%",
+  width: "85%",
+  backgroundColor: "rgba(255,255,255,.4)"
+};
+
+export class TestGuideline extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,13 +33,6 @@ export class AcceptTest extends Component {
   };
 
   render() {
-    var style = {
-      marginTop: "10%",
-      marginLeft: "15%",
-      width: "85%",
-      backgroundColor: "rgba(255,255,255,.4)"
-    };
-
     return (
       <Card body style={style}>
         <CardTitle tag="h2" className="text-center">
@@ -95,4 +95,4 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AcceptTest);
+export default connect(mapStateToProps, mapDispatchToProps)(TestGuideline);

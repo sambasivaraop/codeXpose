@@ -11,20 +11,23 @@ import {
   Col
 } from "reactstrap";
 
+var style = {
+  marginTop: "7%",
+  marginLeft: "15%",
+  width: "85%",
+  backgroundColor: "rgba(255,255,255,.4)"
+};
+
 export class Question extends Component {
   constructor(props) {
     super(props);
   }
   render() {
-    let question_id = this.props.location.pathname.split("/")[2];
-    let question = this.props.questions.find(obj => obj.id == question_id);
+    let questionId = this.props.location.pathname.split("/")[2];
+    let question = this.props.questions.find(
+      question => question.id == questionId
+    );
 
-    var style = {
-      marginTop: "7%",
-      marginLeft: "15%",
-      width: "85%",
-      backgroundColor: "rgba(255,255,255,.4)"
-    };
     return (
       <Card style={style}>
         <CardTitle> {question.title} </CardTitle>
@@ -58,8 +61,4 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({}, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Question);
+export default connect(mapStateToProps)(Question);

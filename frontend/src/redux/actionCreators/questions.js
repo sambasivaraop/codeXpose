@@ -9,8 +9,8 @@ export const setQuestions = questions => ({
 export const changeQuestionStatus = (status, id) => ({
   type: ques_actions.CHANGE_QUESTION_STATUS,
   payload: {
-    status: status,
-    id: id
+    status,
+    id
   }
 });
 

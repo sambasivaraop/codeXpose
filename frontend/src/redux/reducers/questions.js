@@ -6,9 +6,7 @@ export const questionsReducers = {
       case questionsActions.SET_QUESTIONS:
         return action.payload.questions;
       case questionsActions.CHANGE_QUESTION_STATUS:
-        return {
-          state
-        };
+        return state;
       default:
         return state;
     }

@@ -6,49 +6,37 @@ import { Link } from "react-router-dom";
 
 import { Card, Button } from "reactstrap";
 
-export class test extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      redirectToQuestion: false,
-      question_id: null
-    };
-  }
+var style = {
+  marginTop: "10%",
+  marginLeft: "15%",
+  width: "85%",
+  backgroundColor: "rgba(255,255,255,.4)"
+};
 
+export class Test extends Component {
   handleTestSubmit = event => {};
 
   render() {
-    var style = {
-      marginTop: "10%",
-      marginLeft: "15%",
-      width: "85%",
-      backgroundColor: "rgba(255,255,255,.4)"
-    };
-
-    let question = [];
-    for (var i = 0; i < this.props.questions.length; i++) {
-      question.push(
-        <div className="row">
-          <div className="col-8">
-            <ol>
-              <li>{this.props.questions[i].title} </li>
-            </ol>
-          </div>
-          <div className="col-4">
-            <center>
-              <Link to={"/question/" + this.props.questions[i].id}>
-                <Button id={this.props.questions[i].id} type="submit">
-                  Solve
-                </Button>
-              </Link>
-            </center>
-          </div>
-        </div>
-      );
-    }
     return (
       <Card body style={style}>
-        {question}
+        {this.props.questions.map((question, index) => (
+          <div key={index} className="row">
+            <div className="col-8">
+              <ol>
+                <li>{question.title} </li>
+              </ol>
+            </div>
+            <div className="col-4">
+              <center>
+                <Link to={"/question/" + question.id}>
+                  <Button id={question.id} type="submit">
+                    Solve
+                  </Button>
+                </Link>
+              </center>
+            </div>
+          </div>
+        ))}
       </Card>
     );
   }
@@ -64,8 +52,4 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({}, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(test);
+export default connect(mapStateToProps)(Test);
