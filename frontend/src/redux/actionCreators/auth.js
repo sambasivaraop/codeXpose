@@ -1,6 +1,6 @@
 import * as auth from "../actions/auth";
 import { authApi } from "../../api/auth";
-
+import { push } from "react-router-redux";
 export const login_pending = isPending => ({
   type: auth.LOGIN_PENDING,
   payload: { isPending }
@@ -18,6 +18,7 @@ export const login_fail = error => ({
 
 export const login = ({ username, password }) => async (dispatch, getState) => {
   try {
+    console.log(username, password);
     let payload = {
       email: username,
       password
@@ -28,6 +29,7 @@ export const login = ({ username, password }) => async (dispatch, getState) => {
     // const data = JSON.parse(response.data);
     dispatch(login_pending(false));
     dispatch(login_success(data.token));
+    dispatch(push("/guidelines"));
   } catch (error) {
     dispatch(login_pending(false));
     dispatch(login_fail(error));

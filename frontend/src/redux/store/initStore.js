@@ -1,27 +1,34 @@
-import {createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import { appReducer, authReducer } from '../reducers';
-import thunk from 'redux-thunk';
-import { questionsStore  } from './questions';
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import { appReducer, authReducer } from "../reducers";
+import thunk from "redux-thunk";
+import createHistory from "history/createBrowserHistory";
+import { routerMiddleware, routerReducer } from "react-router-redux";
+import { questionsStore } from "./questions";
 import { authStore } from "./auth";
+import { testStore } from "./test";
 
 const initalState = {
-    ...questionsStore,
-    ...authStore
-   };
+  ...questionsStore,
+  ...authStore,
+  ...testStore
+};
 export const rootReducers = combineReducers({
-    ...appReducer,
-    ...authReducer
+  ...appReducer,
+  ...authReducer,
+  router: routerReducer
 });
 
 const composeEnhancers =
-  typeof window === 'object' &&
-  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-    }) : compose;
+  typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+        // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+      })
+    : compose;
 
-const middlewares = composeEnhancers(applyMiddleware(thunk));
+export const history = createHistory();
 
-export const store = createStore(rootReducers,
-    initalState,
-    middlewares);
+const middlewares = composeEnhancers(
+  applyMiddleware(thunk, routerMiddleware(history))
+);
+
+export const store = createStore(rootReducers, initalState, middlewares);

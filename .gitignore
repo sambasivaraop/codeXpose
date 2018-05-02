@@ -108,9 +108,12 @@ migrations/
 *.idea*
 media/
 staticfiles/
+static/
+
 setup.cfg
 
 # FRONT END
+node_modules/
 frontend/README.md
 frontend/package-lock.json
 frontend/src/*.css
