@@ -13,6 +13,7 @@ SCHEMA_VIEW = get_schema_view(title='codeXpose API',
                                                 SwaggerUIRenderer])
 
 urlpatterns = [  # pylint: disable=invalid-name
+    path('', admin.site.urls),
     path('admin/', admin.site.urls),
     path('interview/', include('interview.urls', namespace='interview')),
     path('api-token-auth/', obtain_jwt_token),
