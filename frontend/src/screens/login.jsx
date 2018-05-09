@@ -15,7 +15,7 @@ import {
 } from "reactstrap";
 import user2 from "../img/user2.png";
 
-class Login extends Component {
+export class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
