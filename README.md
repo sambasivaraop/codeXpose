@@ -4,8 +4,11 @@ An open source one-stop solution for conducting technical interviews.
 
 # Tech stack
 Backened  - Python / Django<br>
-Frontend - ReactJS/Redux<br>
+Frontend - React/Redux<br>
 Ops - Ansible/Docker/Nginx
+
+# Architecture 
+![alt text](https://github.com/inovizz/codeXpose/blob/master/architecturediagram.png?raw=true)
 
 # Getting Started
 Follow the below steps to get the development environment up and running.
