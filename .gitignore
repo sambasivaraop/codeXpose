@@ -95,6 +95,9 @@ virtual/
 # Rope project settings
 .ropeproject
 
+# vscode settings
+.vscode/
+
 # mkdocs documentation
 /site
 
