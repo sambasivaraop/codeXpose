@@ -41,6 +41,14 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     'corsheaders',
+    'django_nose',
+]
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+NOSE_ARGS = [
+   '--with-coverage',
+   '--cover-package=interview',
+   '--cover-html',
 ]
 
 MIDDLEWARE = [
@@ -84,7 +92,7 @@ DATABASES = {
         'TEST_NAME': 'test_codexpose',
         'USER': 'dev',
         'PASSWORD': 'abc@1234',
-        'HOST': 'db',
+        'HOST': '127.0.0.1',
         'PORT': '3306'
     }
 }

@@ -11,6 +11,9 @@ script:
   - pycodestyle codexpose/
   - pylint --rcfile=../../.pylintrc interview/
   - pycodestyle interview/
+  - nosetests -v --with-coverage --cover-tests --cover-package=interview interview/tests/test*.py
 
+after_success:
+  - coveralls
 notifications:
   slack: codexpose:Lk1VuZodnuuDanuPfGBbI86y
