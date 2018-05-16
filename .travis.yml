@@ -9,12 +9,12 @@ services:
 
 addons:
   apt:
-    sources:
-      - mysql-5.7-trusty
     packages:
-      - mysql-server
-before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS test_codexpose;'
+      - mysql-server-5.6
+      - mysql-client-core-5.6
+      - mysql-client-5.6
+before_script:
+  - mysql -u root -e 'CREATE DATABASE test_codexpose;'
 
 script:
   - cd backend/codexpose/
