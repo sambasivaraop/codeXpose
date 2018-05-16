@@ -11,8 +11,7 @@ script:
   - pycodestyle codexpose/
   - pylint --rcfile=../../.pylintrc interview/
   - pycodestyle interview/
-  - mkdir -p /var/log/django/codexpose/
-  - touch /var/log/django/codexpose/codexpose.log
+  - touch codexpose.log
   - python manage.py test
 #  - nosetests -v --with-coverage --cover-tests --cover-package=interview interview/tests/test*.py
 
