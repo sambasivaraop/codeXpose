@@ -1,6 +1,6 @@
 # CodeXpose
 [![Build Status](https://travis-ci.org/inovizz/codeXpose.svg?branch=master)](https://travis-ci.org/inovizz/codeXpose)
-[![Coverage Status](https://coveralls.io/repos/github/sambasivaraop/codeXpose/badge.svg?branch=master)](https://coveralls.io/github/sambasivaraop/codeXpose?branch=master)</br>
+[![Coverage Status](https://coveralls.io/repos/github/sambasivaraop/codeXpose/badge.svg?branch=test)](https://coveralls.io/github/sambasivaraop/codeXpose?branch=test)</br>
 An open source one-stop solution for conducting technical interviews.
 
 # Tech stack
