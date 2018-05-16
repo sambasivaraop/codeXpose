@@ -12,6 +12,8 @@ script:
   - pylint --rcfile=../../.pylintrc interview/
   - pycodestyle interview/
   - touch codexpose.log
+  - mysql -u root -pmysql111
+  - GRANT ALL PRIVILEGES ON *.* TO 'dev'@'localhost'
   - python manage.py test
 #  - nosetests -v --with-coverage --cover-tests --cover-package=interview interview/tests/test*.py
 
