@@ -1,6 +1,5 @@
 """The module contains all the test cases for the project"""
 
-import os
 from datetime import datetime
 from django.test import TestCase
 from django.core.files import File
@@ -12,8 +11,7 @@ class CodexposeModelTestCase(TestCase):
     """The class contains test cases for hrbot"""
 
     def setUp(self):
-        self.path = os.path.abspath("../../../files/test.txt")
-
+        self.path = "interview/tests/test.txt"
         self.user_obj = User.objects.create(
             first_name='akshat',
             last_name='goel',

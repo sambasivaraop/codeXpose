@@ -1,5 +1,6 @@
 # CodeXpose
-[![Build Status](https://travis-ci.org/inovizz/codeXpose.svg?branch=master)](https://travis-ci.org/inovizz/codeXpose)</br>
+[![Build Status](https://travis-ci.org/inovizz/codeXpose.svg?branch=master)](https://travis-ci.org/inovizz/codeXpose)
+[![Coverage Status](https://coveralls.io/repos/github/Imaginea/codeXpose/badge.svg?branch=master)](https://coveralls.io/github/Imaginea/codeXpose?branch=master)</br>
 An open source one-stop solution for conducting technical interviews.
 
 # Tech stack
@@ -21,6 +22,7 @@ Follow the below steps to get the development environment up and running.
 ### Install Ansible
 `$ sudo apt-add-repository ppa:ansible/ansible`<br>
 `$ sudo apt-get update`<br>
+
 `$ sudo apt-get install ansible`<br>
 
 ### Execute the following playbook and shell script
