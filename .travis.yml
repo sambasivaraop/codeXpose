@@ -4,6 +4,19 @@ language: python
 python: '3.5'
 sudo: enabled
 
+services:
+  - mysql
+
+addons:
+  apt:
+    packages:
+      - mysql-server-5.6
+      - mysql-client-core-5.6
+      - mysql-client-5.6
+before_script:
+  - mysql -u root -e "CREATE USER 'dev'@'localhost' IDENTIFIED BY 'abc@1234';"
+  - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'dev'@'localhost';"
+
 script:
   - cd backend/codexpose/
   - pip install -r requirements.txt
@@ -11,6 +24,11 @@ script:
   - pycodestyle codexpose/
   - pylint --rcfile=../../.pylintrc interview/
   - pycodestyle interview/
+  - touch codexpose.log
+  - python manage.py test
+
+after_success:
+  - coveralls
 
 notifications:
   slack: codexpose:Lk1VuZodnuuDanuPfGBbI86y

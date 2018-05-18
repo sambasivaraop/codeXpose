@@ -73,6 +73,7 @@ class Question(models.Model):
 
 class Test(models.Model):
     """Model class for Test instance."""
+    __test__ = False
     type_choice = (
         ('PROGRAMMING', 'Programming'),
         ('MCQ', 'MCQ'),
