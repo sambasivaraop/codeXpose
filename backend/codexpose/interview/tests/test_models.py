@@ -6,59 +6,66 @@ from django.core.files import File
 from ..models import User, Question, Test, CandidateTestMapping, \
     CandidateResult, CandidateSolution
 
+PATH = "interview/tests/test.txt"
+
 
 class CodexposeModelTestCase(TestCase):
-    """The class contains test cases for hrbot"""
+    """The class contains test cases for hrbot."""
 
-    def setUp(self):
-        self.path = "interview/tests/test.txt"
-        self.user_obj = User.objects.create(
+    @classmethod
+    def setUpClass(cls):
+        """setUpClass is used instead of setUp
+        to avoid multiple creation of objects."""
+        cls.user_obj = User.objects.create(
             first_name='akshat',
             last_name='goel',
             email='test.abc@xyz.com',
             user_type='INTERVIEWER'
         )
-        self.ques_obj = Question.objects.create(
+        cls.ques_obj = Question.objects.create(
             question_id=1,
             title='Python',
             question_type='Python',
             problem_statement=File(
-                open(self.path)
+                open(PATH)
             ),
             test_cases=File(
-                open(self.path)
+                open(PATH)
             ),
             skeleton=File(
-                open(self.path)
+                open(PATH)
             ),
             marks=10
         )
-        self.test_obj = Test.objects.create(
+        cls.test_obj = Test.objects.create(
             title='Python Test',
-            created_by=self.user_obj
+            created_by=cls.user_obj
         )
-        self.test_obj.question.add(self.ques_obj)
+        cls.test_obj.question.add(cls.ques_obj)
 
-        self.candidate_test_mapping_obj = CandidateTestMapping.objects.create(
-            candidate=self.user_obj,
-            test=self.test_obj,
+        cls.candidate_test_mapping_obj = CandidateTestMapping.objects.create(
+            candidate=cls.user_obj,
+            test=cls.test_obj,
             schedule=datetime.now()
         )
-        self.candidate_result = CandidateResult.objects.get(
-            candidate_test_mapping=self.candidate_test_mapping_obj
+        cls.candidate_result = CandidateResult.objects.get(
+            candidate_test_mapping=cls.candidate_test_mapping_obj
         )
-        self.candidate_solution = CandidateSolution.objects.create(
-            candidate_result=self.candidate_result,
-            question=self.ques_obj
+        cls.candidate_solution = CandidateSolution.objects.create(
+            candidate_result=cls.candidate_result,
+            question=cls.ques_obj
         )
 
-    def tearDown(self):
-        del self.user_obj
-        del self.ques_obj
-        del self.test_obj
-        del self.candidate_test_mapping_obj
-        del self.candidate_result
-        del self.candidate_solution
+    @classmethod
+    def tearDownClass(cls):
+        """tearDownClass is used instead of tearDown
+        to avoid multiple deletion of objects."""
+        del cls.user_obj
+        del cls.ques_obj
+        del cls.test_obj
+        del cls.candidate_test_mapping_obj
+        del cls.candidate_result
+        del cls.candidate_solution
 
     def test_user(self):
         """Test case for User model"""

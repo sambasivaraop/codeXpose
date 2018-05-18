@@ -1,5 +1,5 @@
 # CodeXpose
-[![Build Status](https://travis-ci.org/inovizz/codeXpose.svg?branch=master)](https://travis-ci.org/inovizz/codeXpose)
+[![Build Status](https://travis-ci.org/Imaginea/codeXpose.svg?branch=master)](https://travis-ci.org/Imaginea/codeXpose)
 [![Coverage Status](https://coveralls.io/repos/github/Imaginea/codeXpose/badge.svg?branch=master)](https://coveralls.io/github/Imaginea/codeXpose?branch=master)</br>
 An open source one-stop solution for conducting technical interviews.
 
@@ -50,6 +50,8 @@ Post this, your django dev server shall be up and running at - <br>
 ### Create superuser
 `docker ps` #find the container id<br>
 `docker exec -ti [container id] bash`<br><br>
-Above command takes you inside the docker container and code is available at /src directory, please refer to the django documentation and create a superuser for you.
+Above command takes you inside the docker container and code is available at /src directory, please refer to the django documentation and create a superuser for you.<br>
+*Note: Currently, we are facing issues with docker setup. [Issue#56](https://github.com/Imaginea/codeXpose/issues/56) has been raised to address the same.*<br>
+
 # Contributing
 Please see [contribution](CONTRIBUTING.md).

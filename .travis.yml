@@ -26,7 +26,6 @@ script:
   - pycodestyle interview/
   - touch codexpose.log
   - python manage.py test
-#  - nosetests -v --with-coverage --cover-tests --cover-package=interview interview/tests/test*.py
 
 after_success:
   - coveralls
