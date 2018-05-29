@@ -18,7 +18,7 @@ export const login_fail = error => ({
 
 export const login = ({ username, password }) => async (dispatch, getState) => {
   try {
-    console.log(username, password);
+    // console.log(username, password);
     let payload = {
       email: username,
       password

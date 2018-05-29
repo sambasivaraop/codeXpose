@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import Topbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 import {
   Button,
   Card,
@@ -22,6 +24,10 @@ export class Question extends Component {
   constructor(props) {
     super(props);
   }
+  handleInputChange = event => {
+    event.preventDefault();
+    window.runit();
+  };
   render() {
     let questionId = this.props.location.pathname.split("/")[2];
     let question = this.props.questions.find(
@@ -29,28 +35,38 @@ export class Question extends Component {
     );
 
     return (
-      <Card style={style}>
-        <CardTitle> {question.title} </CardTitle>
-        <CardBody>
-          <Form>
-            <FormGroup>
-              <p> {question.problem_statement} </p>
-            </FormGroup>
-            <FormGroup row>
-              <Col sm={12}>
-                <textarea cols="125" rows="10" name="text">
-                  {question.skeleton}
-                </textarea>
-              </Col>
-            </FormGroup>
-            <FormGroup check row>
-              <Button>Compile</Button> &nbsp;
-              <Button>Run</Button> &nbsp;
-              <Button>Submit</Button>
-            </FormGroup>
-          </Form>
-        </CardBody>
-      </Card>
+      <div className="row">
+        <Topbar />
+        <Sidebar />
+        <Card style={style}>
+          <CardTitle> {question.title} </CardTitle>
+          <CardBody>
+            <Form name="code-editor" id="code-editor">
+              <FormGroup>
+                <p> {question.problem_statement} </p>
+              </FormGroup>
+              <FormGroup row>
+                <Col sm={12}>
+                  <textarea
+                    cols="98"
+                    rows="10"
+                    name="text"
+                    id="my-code"
+                    onChange={this.handleInputChange}
+                    defaultValue={question.skeleton}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup check row>
+                <Button>Compile</Button> &nbsp;
+                <Button>Run</Button> &nbsp;
+                <Button>Submit</Button>
+              </FormGroup>
+            </Form>
+          </CardBody>
+          <pre id="output" />
+        </Card>
+      </div>
     );
   }
 }
