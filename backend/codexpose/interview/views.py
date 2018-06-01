@@ -92,7 +92,9 @@ class UserViewSet(viewsets.ModelViewSet):
                 user_instance = User.objects.get(id=user_id)
                 test_instance = Test.objects.get(id=test_id)
                 _ = CandidateTestMapping.objects.create(
-                    candidate=user_instance, test=test_instance)
+                    candidate=user_instance, test=test_instance,
+                    schedule=request.data.get('schedule', None),
+                    is_accepted=request.data.get('is_accepted', False))
                 LOGGER.debug("Candidate created successfully, associated "
                              "with Test ID %s", test_id)
                 return resp
