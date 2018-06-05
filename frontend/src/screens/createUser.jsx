@@ -1,40 +1,39 @@
 import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import Topbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import axios from "axios";
+import { createUser } from "../redux/actionCreators/users";
 import {
   Card,
   Button,
   CardTitle,
-  CardText,
   Row,
   Col,
   Form,
   FormGroup,
   Label,
-  Input,
-  FormText
+  Input
 } from "reactstrap";
 
-export default class CreateUser extends React.Component {
+export class CreateUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstname: "",
-      lastname: "",
-      emailid: "",
-      pwd: "",
-      usertype: "",
-      isadmin: false,
+      first_name: "",
+      last_name: "",
+      email: "",
+      password: "",
+      user_type: "",
       enableAlert: false
     };
-    // this.handleInputChange = this.handleInputChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleInputChange = event => {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
+    const value =
+      event.target.type === "checkbox"
+        ? event.target.checked
+        : event.target.value;
+    const name = event.target.name;
 
     this.setState({
       [name]: value
@@ -42,66 +41,24 @@ export default class CreateUser extends React.Component {
   };
   handleSubmit = event => {
     event.preventDefault();
-    let text = null;
-    var headers = {
-      headers: {
-        Authorization: "JWT " + this.props.match.params.token
-      }
-    };
-
-    axios
-      .post(
-        "http://localhost:8000/interview/user/",
-        {
-          first_name: this.state.firstname,
-          last_name: this.state.lastname,
-          password: this.state.pwd,
-          email: this.state.emailid,
-          user_type: this.state.usertype,
-          is_admin: this.state.isadmin
-        },
-        headers
-      )
-      .then(response => {
-        this.setState({
-          data: JSON.parse(response.data),
-          enableAlert: false,
-          message: "success"
-        });
-      })
-      .catch(error => {
-        //            console.log(headers);
-        if (error.response.status == 400) {
-          text = "Invalid Username or Password !";
-        } else {
-          text =
-            "There is some error while processing !\
-                        Kindly refresh the page.";
-        }
-        this.setState({
-          message: text,
-          enableAlert: true
-        });
-      });
+    const { first_name, last_name, password, user_type, email } = this.state;
+    this.props.createUser({
+      first_name,
+      last_name,
+      password,
+      email,
+      user_type
+    });
   };
   render() {
-    //        console.log(this.props.match.params.token);
     const active_create_usr = "active";
-    const style = {
-      marginTop: "7%",
-      marginLeft: "15%",
-      width: "85%"
-    };
-    const cardStyle = {
-      background: "linear-gradient(to top right, #e7e6e3 0%, #eceae1 100%)"
-    };
     return (
       <div>
         <Sidebar activeCreateUser={active_create_usr} />
         <Topbar />
-        <Row style={style}>
+        <Row className="boxStyle">
           <Col md="12">
-            <Card body className="border border-primary" style={cardStyle}>
+            <Card body className="border border-primary bgGrey">
               <CardTitle> Create User </CardTitle>
               <Form
                 name="user-form"
@@ -109,50 +66,50 @@ export default class CreateUser extends React.Component {
                 onSubmit={this.handleSubmit}
               >
                 <FormGroup row>
-                  <Label size="sm" htmlFor="firstname" md={2}>
+                  <Label size="sm" htmlFor="first_name" md={2}>
                     First Name*
                   </Label>
                   <Col md={4}>
                     <Input
                       bsSize="sm"
                       type="text"
-                      id="firstname"
-                      name="firstname"
+                      id="first_name"
+                      name="first_name"
                       placeholder="First Name"
                       required
-                      value={this.state.firstname}
+                      value={this.state.first_name}
                       onChange={this.handleInputChange}
                     />
                   </Col>
-                  <Label size="sm" htmlFor="lastname" md={2}>
+                  <Label size="sm" htmlFor="last_name" md={2}>
                     Last Name*
                   </Label>
                   <Col md={4}>
                     <Input
                       bsSize="sm"
                       type="text"
-                      id="lastname"
-                      name="lastname"
+                      id="last_name"
+                      name="last_name"
                       placeholder="Last Name"
                       required
-                      value={this.state.lastname}
+                      value={this.state.last_name}
                       onChange={this.handleInputChange}
                     />
                   </Col>
                 </FormGroup>
                 <FormGroup row>
-                  <Label size="sm" htmlFor="emailid" md={2}>
+                  <Label size="sm" htmlFor="email" md={2}>
                     Email ID*
                   </Label>
                   <Col md={4}>
                     <Input
                       bsSize="sm"
                       type="email"
-                      id="emailid"
-                      name="emailid"
+                      id="email"
+                      name="email"
                       placeholder="Email ID"
                       required
-                      value={this.state.emailid}
+                      value={this.state.email}
                       onChange={this.handleInputChange}
                     />
                   </Col>
@@ -163,8 +120,8 @@ export default class CreateUser extends React.Component {
                     <Input
                       bsSize="sm"
                       type="password"
-                      id="pwd"
-                      name="pwd"
+                      id="password"
+                      name="password"
                       placeholder="Password"
                       required
                       value={this.state.password}
@@ -173,35 +130,23 @@ export default class CreateUser extends React.Component {
                   </Col>
                 </FormGroup>
                 <FormGroup row>
-                  <Label size="sm" htmlFor="usertype" md={2}>
+                  <Label size="sm" htmlFor="user_type" md={2}>
                     User Type*
                   </Label>
                   <Col md={4}>
                     <Input
                       bsSize="sm"
                       type="select"
-                      id="usertype"
-                      name="usertype"
+                      id="user_type"
+                      name="user_type"
                       required
-                      value={this.state.usertype}
+                      value={this.state.user_type}
                       onChange={this.handleInputChange}
                     >
                       <option value="">--- Please Select ---</option>
                       <option value="INTERVIEWER">Interviewer</option>
                       <option value="CANDIDATE">Candidate</option>
                     </Input>
-                  </Col>
-                  <Label size="sm" htmlFor="isadmin" md={2}>
-                    IsAdmin*
-                  </Label>
-                  <Col md={2} className="pt-2 ml-3">
-                    <Input
-                      type="checkbox"
-                      id="isadmin"
-                      name="isadmin"
-                      checked={this.state.isadmin}
-                      onChange={this.handleInputChange}
-                    />
                   </Col>
                 </FormGroup>
                 <br />
@@ -222,3 +167,21 @@ export default class CreateUser extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    pending: state.userPending,
+    success: state.userSuccess,
+    error: state.userFail
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      createUser
+    },
+    dispatch
+  );
+}
+export default connect(mapStateToProps, mapDispatchToProps)(CreateUser);

@@ -19,14 +19,14 @@ export const testReducers = {
         return state;
     }
   },
-  //   testGetsuccess: (state = "", action) => {
-  //     switch (action.type) {
-  //       case testActions.TEST_GET_SUCCESS:
-  //         return action.payload.test_data;
-  //       default:
-  //         return state;
-  //     }
-  //   },
+  testSuccess: (state = "", action) => {
+    switch (action.type) {
+      case testActions.TEST_CREATE_SUCCESS:
+        return action.payload.data;
+      default:
+        return state;
+    }
+  },
   testGetFail: (state = "", action) => {
     switch (action.type) {
       case testActions.TEST_GET_FAIL:

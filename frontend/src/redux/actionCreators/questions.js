@@ -13,6 +13,18 @@ export const changeQuestionStatus = (status, id) => ({
     id
   }
 });
+export const get_ques_pending = isPending => ({
+  type: ques_actions.GET_QUESTION_PENDING,
+  payload: { isPending }
+});
+export const get_ques_success = data => ({
+  type: ques_actions.GET_QUESTION_SUCCESS,
+  payload: { data }
+});
+export const get_ques_fail = error => ({
+  type: ques_actions.GET_QUESTION_FAIL,
+  payload: { error }
+});
 
 export const getQuestion = test_id => async (dispatch, getState) => {
   try {
@@ -32,18 +44,20 @@ export const getQuestion = test_id => async (dispatch, getState) => {
     dispatch(setQuestions(newQuestions));
   } catch (error) {
     // dispatch(question_get_fail(error));
-    console.log(error);
   }
 };
-
-// export const addQuestion = ({ question }) => async (dispatch, getState) => {
-//     try {
-//         const { questions } = getState();
-//         const newQuestion = await questionsApi.addQuestion({ question });
-//         const newQuestions = [ ...questions, newQuestion ];
-//         dispatch(setQuestions({ questions: newQuestions }));
-//     } catch (err) {
-//         dispatch(setError(err));
-//     }
-
-// }
+export const getAllQuestions = () => async (dispatch, getState) => {
+  try {
+    let token = "JWT ".concat(getState().authToken);
+    let headers = {
+      headers: { Authorization: token }
+    };
+    dispatch(get_ques_pending(true));
+    const data = await questionsApi.getAllQuestions(headers);
+    dispatch(get_ques_pending(false));
+    dispatch(get_ques_success(data));
+  } catch (error) {
+    dispatch(get_ques_pending(false));
+    dispatch(get_ques_fail(error));
+  }
+};

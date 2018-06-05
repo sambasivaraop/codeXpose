@@ -1,107 +1,64 @@
 import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import Topbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import axios from "axios";
+import { getAllQuestions } from "../redux/actionCreators/questions";
 import {
   Card,
   Button,
   CardTitle,
-  CardText,
   Row,
   Col,
   Form,
   FormGroup,
   Label,
-  Input,
-  FormText
+  Input
 } from "reactstrap";
 
-export default class CreateTest extends React.Component {
+export class CreateTest extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       title: "",
-      testType: "",
-      createdBy: "",
-      duration: "",
-      question: "",
-      difficulty: "",
-      enableAlert: false
+      test_type: "",
+      created_by: "test.user@xx.com",
+      duration: "00:00",
+      question: [],
+      difficulty: ""
     };
-    // this.handleInputChange = this.handleInputChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
+    this.props.getAllQuestions();
   }
   handleInputChange = event => {
     const target = event.target;
-    const value = target.value;
     const name = target.name;
-
+    var options = target.options;
+    if (name === "question") {
+      var value = [];
+      for (var i = 0; i < options.length; i++) {
+        if (options[i].selected) {
+          value.push(options[i].value);
+        }
+      }
+    } else {
+      var value = target.value;
+    }
     this.setState({
       [name]: value
     });
   };
   handleSubmit = event => {
     event.preventDefault();
-    let text = null;
-    var headers = {
-      headers: {
-        Authorization: "JWT " + this.props.match.params.token
-      }
-    };
-
-    // axios
-    //   .post(
-    //     "http://localhost:8000/interview/user/",
-    //     {
-    //       first_name: this.state.firstname,
-    //       last_name: this.state.lastname,
-    //       password: this.state.pwd,
-    //       email: this.state.emailid,
-    //       user_type: this.state.usertype,
-    //       is_admin: this.state.isadmin
-    //     },
-    //     headers
-    //   )
-    //   .then(response => {
-    //     this.setState({
-    //       data: JSON.parse(response.data),
-    //       enableAlert: false,
-    //       message: "success"
-    //     });
-    //   })
-    //   .catch(error => {
-    //     //            console.log(headers);
-    //     if (error.response.status == 400) {
-    //       text = "Invalid Username or Password !";
-    //     } else {
-    //       text =
-    //         "There is some error while processing !\
-    //                     Kindly refresh the page.";
-    //     }
-    //     this.setState({
-    //       message: text,
-    //       enableAlert: true
-    //     });
-    //   });
   };
   render() {
-    //        console.log(this.props.match.params.token);
     const active_create_test = "active";
-    const style = {
-      marginTop: "7%",
-      marginLeft: "15%",
-      width: "85%"
-    };
-    const cardStyle = {
-      background: "linear-gradient(to top right, #e7e6e3 0%, #eceae1 100%)"
-    };
     return (
       <div>
         <Sidebar activeCreateTest={active_create_test} />
         <Topbar />
-        <Row style={style}>
+        <Row className="boxStyle">
           <Col md="12">
-            <Card body className="border border-primary" style={cardStyle}>
+            <Card body className="border border-primary bgGrey">
               <CardTitle> Create Test </CardTitle>
               <Form
                 name="test-form"
@@ -124,17 +81,17 @@ export default class CreateTest extends React.Component {
                       onChange={this.handleInputChange}
                     />
                   </Col>
-                  <Label size="sm" htmlFor="testType" md={2}>
+                  <Label size="sm" htmlFor="test_type" md={2}>
                     Test Type*
                   </Label>
                   <Col md={4}>
                     <Input
                       bsSize="sm"
                       type="select"
-                      id="testType"
-                      name="testType"
+                      id="test_type"
+                      name="test_type"
                       required
-                      value={this.state.testType}
+                      value={this.state.test_type}
                       onChange={this.handleInputChange}
                     >
                       <option value="">--- Please Select ---</option>
@@ -144,18 +101,18 @@ export default class CreateTest extends React.Component {
                   </Col>
                 </FormGroup>
                 <FormGroup row>
-                  <Label size="sm" htmlFor="createdBy" md={2}>
+                  <Label size="sm" htmlFor="created_by" md={2}>
                     Created By*
                   </Label>
                   <Col md={4}>
                     <Input
                       bsSize="sm"
                       type="email"
-                      id="createdBy"
-                      name="createdBy"
+                      id="created_by"
+                      name="created_by"
                       placeholder="Created by"
                       required
-                      value="test.user@xx.com"
+                      value={this.state.created_by}
                       disabled
                     />
                   </Col>
@@ -186,13 +143,14 @@ export default class CreateTest extends React.Component {
                       id="question"
                       name="question"
                       required
-                      //   value={this.state.question}
                       onChange={this.handleInputChange}
                       multiple
                     >
-                      <option value="binary search">Binary Search</option>
-                      <option value="merge sort">Merge Sort</option>
-                      <option value="fibonacci series">Fibinacci Series</option>
+                      {this.props.questions.map((question, index) => (
+                        <option key={index} value={question.question_id}>
+                          {question.title}
+                        </option>
+                      ))}
                     </Input>
                   </Col>
                   <Label size="sm" htmlFor="difficulty" md={2}>
@@ -233,3 +191,15 @@ export default class CreateTest extends React.Component {
     );
   }
 }
+function mapStateToProps(state) {
+  return {
+    pending: state.questionsPending,
+    success: state.questionsSuccess,
+    error: state.questionsFail,
+    questions: state.allQuestions
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ getAllQuestions }, dispatch);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTest);

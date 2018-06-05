@@ -6,11 +6,13 @@ import { routerMiddleware, routerReducer } from "react-router-redux";
 import { questionsStore } from "./questions";
 import { authStore } from "./auth";
 import { testStore } from "./test";
+import { userStore } from "./users";
 
 const initalState = {
   ...questionsStore,
   ...authStore,
-  ...testStore
+  ...testStore,
+  ...userStore
 };
 export const rootReducers = combineReducers({
   ...appReducer,

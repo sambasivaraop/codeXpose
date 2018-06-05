@@ -1,7 +1,7 @@
 export const testStore = {
   isCompleted: false,
   testGetPending: null,
-  // testGetSuccess: null,
+  testSuccess: null,
   testGetFail: null,
   testData: {}
 };

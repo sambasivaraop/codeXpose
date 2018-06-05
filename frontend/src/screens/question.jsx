@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Topbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
@@ -13,12 +12,12 @@ import {
   Col
 } from "reactstrap";
 
-var style = {
-  marginTop: "7%",
-  marginLeft: "15%",
-  width: "85%",
-  backgroundColor: "rgba(255,255,255,.4)"
-};
+// var style = {
+//   marginTop: "7%",
+//   marginLeft: "15%",
+//   width: "85%",
+//   backgroundColor: "rgba(255,255,255,.4)"
+// };
 
 export class Question extends Component {
   constructor(props) {
@@ -38,7 +37,7 @@ export class Question extends Component {
       <div className="row">
         <Topbar />
         <Sidebar />
-        <Card style={style}>
+        <Card className="boxStyle">
           <CardTitle> {question.title} </CardTitle>
           <CardBody>
             <Form name="code-editor" id="code-editor">
@@ -73,7 +72,7 @@ export class Question extends Component {
 
 function mapStateToProps(state) {
   return {
-    questions: state.questions
+    questions: state.testQuestions
   };
 }
 

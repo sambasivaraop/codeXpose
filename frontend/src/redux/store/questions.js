@@ -1,3 +1,7 @@
 export const questionsStore = {
-  questions: []
+  questionsPending: null,
+  questionsSuccess: null,
+  questionsFail: null,
+  allQuestions: [],
+  testQuestions: []
 };

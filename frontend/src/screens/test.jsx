@@ -1,19 +1,10 @@
 import React, { Component } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Topbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 
 import { Card, Button } from "reactstrap";
-
-var style = {
-  marginTop: "7%",
-  marginLeft: "15%",
-  width: "85%"
-  // backgroundColor: "rgba(255,255,255,.4)"
-};
 
 export class Test extends Component {
   handleTestSubmit = event => {};
@@ -24,7 +15,7 @@ export class Test extends Component {
       <div>
         <Topbar activeTest={active_test_class} />
         <Sidebar />
-        <Card body style={style}>
+        <Card body className="boxStyle">
           {this.props.questions.map((question, index) => (
             <div key={index} className="row">
               <div className="col-8">
@@ -55,7 +46,7 @@ function mapStateToProps(state) {
     getPending: state.testGetPending,
     getFail: state.testGetFail,
     testData: state.testData,
-    questions: state.questions
+    questions: state.testQuestions
   };
 }
 

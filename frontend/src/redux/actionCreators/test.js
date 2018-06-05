@@ -1,6 +1,5 @@
 import * as test_actions from "../actions/test";
 import { testApi } from "../../api/test";
-import { getQuestion } from "../actionCreators/questions";
 import { setQuestions } from "../actionCreators/questions";
 import { push } from "react-router-redux";
 
@@ -27,6 +26,10 @@ export const testGetSuccess = test_data => ({
 export const testGetFail = error => ({
   type: test_actions.TEST_GET_FAIL,
   payload: { error }
+});
+export const testCreateSuccess = data => ({
+  type: test_actions.TEST_CREATE_SUCCESS,
+  payload: { data }
 });
 
 export const getTest = test_id => async (dispatch, getState) => {

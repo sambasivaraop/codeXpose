@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { getTest } from "../redux/actionCreators/test";
@@ -41,7 +40,7 @@ export class TestGuideline extends Component {
         <form onSubmit={this.handleSubmit}>
           <FormGroup>
             <ol>
-              <li>This test conains programming qurstions.</li>
+              <li>This test conains programming questions.</li>
               <li>
                 Please read the problem statement before starting the code.
               </li>

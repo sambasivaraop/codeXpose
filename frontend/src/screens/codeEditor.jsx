@@ -16,15 +16,8 @@ export class CodeEditor extends Component {
     window.runit();
   };
   render() {
-    var style = {
-      marginTop: "7%",
-      marginLeft: "15%",
-      width: "85%",
-      backgroundColor: "rgba(255,255,255,.4)"
-    };
-
     return (
-      <Card body style={style}>
+      <Card body className="boxStyle">
         <CardTitle tag="h2" className="text-center">
           Code Editor For Python
         </CardTitle>
@@ -38,21 +31,6 @@ export class CodeEditor extends Component {
               onChange={this.handleInputChange}
             />
           </FormGroup>
-          {/* <FormGroup>
-            <Label for="password">Password</Label>
-            <Input
-              type="password"
-              id="password"
-              placeholder="Password"
-              name="password"
-              className="border border-primary"
-              value={this.state.password}
-              onChange={this.handleInputChange}
-            />
-          </FormGroup> */}
-          {/* <Button color="primary" onClick={this.handleInputChange}>
-            Run It
-          </Button> */}
         </Form>
         <pre id="output" />
       </Card>
