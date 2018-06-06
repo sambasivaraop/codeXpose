@@ -10,6 +10,7 @@ Ops - Ansible/Docker/Nginx
 
 # Architecture 
 ![alt text](https://github.com/inovizz/codeXpose/blob/master/architecturediagram.png?raw=true)
+<sup>Please note, "Docker" and its logo are trademarks of Docker Inc.</sup>
 
 # Getting Started
 Follow the below steps to get the development environment up and running.
