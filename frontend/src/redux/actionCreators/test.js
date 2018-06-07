@@ -31,6 +31,14 @@ export const testCreateSuccess = data => ({
   type: test_actions.TEST_CREATE_SUCCESS,
   payload: { data }
 });
+export const testCreatePending = isPending => ({
+  type: test_actions.TEST_CREATE_PENDING,
+  payload: { isPending }
+});
+export const testCreateFail = error => ({
+  type: test_actions.TEST_CREATE_FAIL,
+  payload: { error }
+});
 
 export const getTest = test_id => async (dispatch, getState) => {
   try {
@@ -53,5 +61,34 @@ export const getTest = test_id => async (dispatch, getState) => {
   } catch (error) {
     dispatch(testGetPending(false));
     dispatch(testGetFail(error));
+  }
+};
+
+export const createTest = ({
+  title,
+  test_type,
+  duration,
+  question,
+  difficulty
+}) => async (dispatch, getState) => {
+  try {
+    let token = "JWT ".concat(getState().authToken);
+    let headers = {
+      headers: { Authorization: token }
+    };
+    let payload = {
+      title,
+      test_type,
+      duration,
+      question,
+      difficulty
+    };
+    dispatch(testCreatePending(true));
+    const data = await testApi.createTest(payload, headers);
+    dispatch(testCreatePending(false));
+    dispatch(testCreateSuccess(data));
+  } catch (error) {
+    dispatch(testCreatePending(false));
+    dispatch(testCreateFail(error));
   }
 };

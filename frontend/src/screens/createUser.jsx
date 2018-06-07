@@ -55,11 +55,12 @@ export class CreateUser extends React.Component {
     return (
       <div>
         <Sidebar activeCreateUser={active_create_usr} />
-        <Topbar />
+        <Topbar activeCreateUser={active_create_usr} />
         <Row className="boxStyle">
           <Col md="12">
             <Card body className="border border-primary bgGrey">
               <CardTitle> Create User </CardTitle>
+              <br />
               <Form
                 name="user-form"
                 id="user-form"

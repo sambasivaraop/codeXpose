@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import Topbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { getAllQuestions } from "../redux/actionCreators/questions";
+import { createTest } from "../redux/actionCreators/test";
 import {
   Card,
   Button,
@@ -22,7 +23,6 @@ export class CreateTest extends React.Component {
     this.state = {
       title: "",
       test_type: "",
-      created_by: "test.user@xx.com",
       duration: "00:00",
       question: [],
       difficulty: ""
@@ -37,7 +37,7 @@ export class CreateTest extends React.Component {
       var value = [];
       for (var i = 0; i < options.length; i++) {
         if (options[i].selected) {
-          value.push(options[i].value);
+          value.push(parseInt(options[i].value));
         }
       }
     } else {
@@ -49,6 +49,14 @@ export class CreateTest extends React.Component {
   };
   handleSubmit = event => {
     event.preventDefault();
+    const { title, test_type, duration, question, difficulty } = this.state;
+    this.props.createTest({
+      title,
+      test_type,
+      duration,
+      question,
+      difficulty
+    });
   };
   render() {
     const active_create_test = "active";
@@ -60,6 +68,7 @@ export class CreateTest extends React.Component {
           <Col md="12">
             <Card body className="border border-primary bgGrey">
               <CardTitle> Create Test </CardTitle>
+              <br />
               <Form
                 name="test-form"
                 id="test-form"
@@ -101,21 +110,6 @@ export class CreateTest extends React.Component {
                   </Col>
                 </FormGroup>
                 <FormGroup row>
-                  <Label size="sm" htmlFor="created_by" md={2}>
-                    Created By*
-                  </Label>
-                  <Col md={4}>
-                    <Input
-                      bsSize="sm"
-                      type="email"
-                      id="created_by"
-                      name="created_by"
-                      placeholder="Created by"
-                      required
-                      value={this.state.created_by}
-                      disabled
-                    />
-                  </Col>
                   <Label size="sm" htmlFor="duration" md={2}>
                     Duration*
                   </Label>
@@ -131,8 +125,6 @@ export class CreateTest extends React.Component {
                       onChange={this.handleInputChange}
                     />
                   </Col>
-                </FormGroup>
-                <FormGroup row>
                   <Label size="sm" htmlFor="question" md={2}>
                     Question*
                   </Label>
@@ -153,6 +145,8 @@ export class CreateTest extends React.Component {
                       ))}
                     </Input>
                   </Col>
+                </FormGroup>
+                <FormGroup row>
                   <Label size="sm" htmlFor="difficulty" md={2}>
                     Difficulty*
                   </Label>
@@ -200,6 +194,6 @@ function mapStateToProps(state) {
   };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getAllQuestions }, dispatch);
+  return bindActionCreators({ getAllQuestions, createTest }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CreateTest);
