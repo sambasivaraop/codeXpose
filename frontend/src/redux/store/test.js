@@ -3,5 +3,6 @@ export const testStore = {
   testGetPending: null,
   testSuccess: null,
   testGetFail: null,
-  testData: {}
+  testData: {},
+  allTests: []
 };

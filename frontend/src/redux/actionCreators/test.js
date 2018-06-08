@@ -39,6 +39,10 @@ export const testCreateFail = error => ({
   type: test_actions.TEST_CREATE_FAIL,
   payload: { error }
 });
+export const testGetAllSuccess = data => ({
+  type: test_actions.TEST_GET_ALL_SUCCESS,
+  payload: { data }
+});
 
 export const getTest = test_id => async (dispatch, getState) => {
   try {
@@ -58,6 +62,21 @@ export const getTest = test_id => async (dispatch, getState) => {
     dispatch(testGetPending(false));
     dispatch(testGetSuccess(data));
     dispatch(push("/test"));
+  } catch (error) {
+    dispatch(testGetPending(false));
+    dispatch(testGetFail(error));
+  }
+};
+export const getAlltests = () => async (dispatch, getState) => {
+  try {
+    let token = "JWT ".concat(getState().authToken);
+    let headers = {
+      headers: { Authorization: token }
+    };
+    dispatch(testGetPending(true));
+    const data = await testApi.getAllTests(headers);
+    dispatch(testGetPending(false));
+    dispatch(testGetAllSuccess(data));
   } catch (error) {
     dispatch(testGetPending(false));
     dispatch(testGetFail(error));

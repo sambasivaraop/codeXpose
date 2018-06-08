@@ -1,4 +1,5 @@
 import * as testActions from "../actions/test";
+import { stat } from "fs";
 
 export const testReducers = {
   isCompleted: (state = false, action) => {
@@ -25,8 +26,6 @@ export const testReducers = {
     switch (action.type) {
       case testActions.TEST_CREATE_SUCCESS:
         return action.payload.data;
-      case testActions.TEST_CREATE_SUCCESS:
-        return action.payload.data;
       default:
         return state;
     }
@@ -46,6 +45,14 @@ export const testReducers = {
       case testActions.TEST_GET_SUCCESS:
         // return action.payload.question_data;
         return Object.assign({}, state, action.payload.test_data);
+      default:
+        return state;
+    }
+  },
+  allTests: (state = [], action) => {
+    switch (action.type) {
+      case testActions.TEST_GET_ALL_SUCCESS:
+        return action.payload.data;
       default:
         return state;
     }

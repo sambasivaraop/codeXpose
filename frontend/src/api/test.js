@@ -8,5 +8,9 @@ export const testApi = {
   async createTest(payload, headers) {
     const response = await axios.post(test_get_api, payload, headers);
     return response.data;
+  },
+  async getAllTests(headers) {
+    const response = await axios.get(test_get_api, headers);
+    return response.data;
   }
 };
