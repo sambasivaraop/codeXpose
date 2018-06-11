@@ -1,4 +1,7 @@
 # CodeXpose
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.png?v=103)](https://github.com/Imaginea/codeXpose)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/mit-license.php)
+[![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)</br>
 [![Build Status](https://travis-ci.org/Imaginea/codeXpose.svg?branch=master)](https://travis-ci.org/Imaginea/codeXpose)
 [![Coverage Status](https://coveralls.io/repos/github/Imaginea/codeXpose/badge.svg?branch=master)](https://coveralls.io/github/Imaginea/codeXpose?branch=master)</br>
 An open source one-stop solution for conducting technical interviews.
