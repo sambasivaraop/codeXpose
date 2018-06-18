@@ -6,12 +6,16 @@ export const questionsReducers = {
     switch (action.type) {
       case questionsActions.GET_QUESTION_PENDING:
         return action.payload.isPending;
+      case questionsActions.ADD_QUESTION_PENDING:
+        return action.payload.isPending;
       default:
         return state;
     }
   },
   questionsSuccess: (state = null, action) => {
     switch (action.type) {
+      case questionsActions.ADD_QUESTION_SUCCESS:
+        return action.payload.data;
       default:
         return state;
     }
@@ -19,6 +23,8 @@ export const questionsReducers = {
   questionsFail: (state = null, action) => {
     switch (action.type) {
       case questionsActions.GET_QUESTION_FAIL:
+        return action.payload.error;
+      case questionsActions.ADD_QUESTION_FAIL:
         return action.payload.error;
       default:
         return state;
