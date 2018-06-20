@@ -33,7 +33,7 @@ class User(AbstractBaseUser):
         return self.email
 
     def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
+        """Does the user have a specific permission?"""
         # Simplest possible answer: Yes, always
         return True
 
@@ -45,7 +45,7 @@ class User(AbstractBaseUser):
 def question_data_path(instance, filename):
     """Returns Questions data path."""
     # question data will be uploaded to MEDIA_ROOT/question_<id>/<filename>
-    return 'question_{0}/{1}'.format(instance.question_id, filename)
+    return 'question_{0}/{1}'.format(instance.id, filename)
 
 
 class Question(models.Model):
@@ -55,7 +55,6 @@ class Question(models.Model):
         ('MEDIUM', 'Medium'),
         ('HARD', 'Hard')
     )
-    question_id = models.IntegerField()
     title = models.CharField(max_length=50)
     question_type = models.CharField(max_length=20)
     problem_statement = models.FileField(upload_to=question_data_path)

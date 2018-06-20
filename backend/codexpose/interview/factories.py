@@ -26,7 +26,7 @@ class QuestionFactory(factory.Factory):
     class Meta:
         """Meta class for Question model factory."""
         model = Question
-    question_id = '1'
+
     title = "Binary Search"
     question_type = "Programming"
     problem_statement = "test.txt"

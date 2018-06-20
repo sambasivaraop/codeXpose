@@ -8,7 +8,7 @@ from ..models import User, Question, Test, CandidateTestMapping, \
     CandidateResult, CandidateSolution, candidate_solution_data_path
 
 PATH = "interview/tests/test.txt"
-CONFIG_PATH = "interview/tests/config.ini"
+CONFIG_PATH = "interview/tests/test_config.ini"
 
 
 class ModelTestCase(TestCase):
@@ -27,7 +27,6 @@ class ModelTestCase(TestCase):
             user_type=self.config['user']['user_type']
         )
         self.ques_obj = Question.objects.create(
-            question_id=self.config['question']['question_id'],
             title=self.config['question']['title'],
             question_type=self.config['question']['question_type'],
             problem_statement=File(

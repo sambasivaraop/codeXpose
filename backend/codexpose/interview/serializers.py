@@ -31,7 +31,7 @@ class UserSerializers(serializers.ModelSerializer):
 
 class TestSerializers(serializers.ModelSerializer):
     """Serializer class for Test model."""
-    question = QuestionSerializers(many=True, read_only=True)
+    question = QuestionSerializers(many=True, read_only=False)
 
     class Meta:
         """Meta class for TestSerializer."""
