@@ -17,7 +17,7 @@ export class ViewQuestions extends Component {
     return (
       <div>
         <Topbar activeViewQues={active_view_ques_class} />
-        <Sidebar activeViewQues={active_view_ques_class} />
+        <Sidebar activeViewQues={active_view_ques_class.concat(" bg-info")} />
         <Row className="boxStyle">
           <Col md="12">
             <Card body className="border border-primary bgGrey">
@@ -65,4 +65,7 @@ function mapDispatchToProps(dispatch) {
     dispatch
   );
 }
-export default connect(mapStateToProps, mapDispatchToProps)(ViewQuestions);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ViewQuestions);

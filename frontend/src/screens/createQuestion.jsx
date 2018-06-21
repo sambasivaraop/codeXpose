@@ -52,7 +52,7 @@ export class CreateQuestion extends React.Component {
     const active_create_ques = "active";
     return (
       <div>
-        <Sidebar activeCreateQues={active_create_ques} />
+        <Sidebar activeCreateQues={active_create_ques.concat(" bg-info")} />
         <Topbar />
         <Row className="boxStyle">
           <Col md="12">

@@ -27,7 +27,8 @@ export const login = ({ username, password }) => async (dispatch, getState) => {
     const data = await authApi.login(payload);
     dispatch(login_pending(false));
     dispatch(login_success(data.token));
-    dispatch(push("/guidelines"));
+    localStorage.setItem("token", data.token);
+    dispatch(push("/dashboard"));
   } catch (error) {
     dispatch(login_pending(false));
     dispatch(login_fail(error));

@@ -12,13 +12,6 @@ import {
   Col
 } from "reactstrap";
 
-// var style = {
-//   marginTop: "7%",
-//   marginLeft: "15%",
-//   width: "85%",
-//   backgroundColor: "rgba(255,255,255,.4)"
-// };
-
 export class Question extends Component {
   constructor(props) {
     super(props);
@@ -30,7 +23,7 @@ export class Question extends Component {
   render() {
     let questionId = this.props.location.pathname.split("/")[2];
     let question = this.props.questions.find(
-      question => question.id == questionId
+      question => question.id === questionId
     );
 
     return (

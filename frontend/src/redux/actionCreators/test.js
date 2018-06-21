@@ -46,8 +46,7 @@ export const testGetAllSuccess = data => ({
 
 export const getTest = test_id => async (dispatch, getState) => {
   try {
-    let token = "JWT ".concat(getState().authToken);
-
+    let token = "JWT ".concat(localStorage.getItem("token"));
     let headers = {
       headers: { Authorization: token }
     };
@@ -69,7 +68,7 @@ export const getTest = test_id => async (dispatch, getState) => {
 };
 export const getAlltests = () => async (dispatch, getState) => {
   try {
-    let token = "JWT ".concat(getState().authToken);
+    let token = "JWT ".concat(localStorage.getItem("token"));
     let headers = {
       headers: { Authorization: token }
     };
@@ -91,7 +90,7 @@ export const createTest = ({
   difficulty
 }) => async (dispatch, getState) => {
   try {
-    let token = "JWT ".concat(getState().authToken);
+    let token = "JWT ".concat(localStorage.getItem("token"));
     let headers = {
       headers: { Authorization: token }
     };

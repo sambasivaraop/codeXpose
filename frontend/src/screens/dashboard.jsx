@@ -10,7 +10,7 @@ export default class Dashboard extends React.Component {
     const active_dashboard = "active";
     return (
       <div>
-        <Sidebar activeDashboard={active_dashboard} />
+        <Sidebar activeDashboard={active_dashboard.concat(" bg-info")} />
         <Topbar activeDashboard={active_dashboard} />
         <Row className="boxStyle">
           <Col sm="12">

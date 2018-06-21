@@ -62,7 +62,7 @@ export class CreateTest extends React.Component {
     const active_create_test = "active";
     return (
       <div>
-        <Sidebar activeCreateTest={active_create_test} />
+        <Sidebar activeCreateTest={active_create_test.concat(" bg-info")} />
         <Topbar />
         <Row className="boxStyle">
           <Col md="12">
@@ -196,4 +196,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ getAllQuestions, createTest }, dispatch);
 }
-export default connect(mapStateToProps, mapDispatchToProps)(CreateTest);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateTest);

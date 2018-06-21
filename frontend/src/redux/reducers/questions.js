@@ -1,5 +1,4 @@
 import * as questionsActions from "../actions/questions";
-import { stat } from "fs";
 
 export const questionsReducers = {
   questionsPending: (state = null, action) => {

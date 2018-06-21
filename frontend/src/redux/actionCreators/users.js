@@ -1,6 +1,5 @@
 import * as userActions from "../actions/users";
 import { userApi } from "../../api/users";
-// import { push } from "react-router-redux";
 
 export const add_user_pending = isPending => ({
   type: userActions.ADD_USER_PENDING,
@@ -31,15 +30,16 @@ export const get_user_fail = error => ({
 
 export const getUsers = user_id => async (dispatch, getState) => {
   try {
-    let token = "JWT ".concat(getState().authToken);
+    let token = "JWT ".concat(localStorage.getItem("token"));
     let headers = {
       headers: { Authorization: token }
     };
+    var data = "";
     dispatch(get_user_pending(true));
     if (!user_id || user_id === "") {
-      var data = await userApi.getAllUsers(headers);
+      data = await userApi.getAllUsers(headers);
     } else {
-      var data = await userApi.getSingleUser(headers, user_id);
+      data = await userApi.getSingleUser(headers, user_id);
     }
     dispatch(get_user_pending(false));
     dispatch(get_user_success(data));
@@ -57,7 +57,7 @@ export const createUser = ({
   user_type
 }) => async (dispatch, getState) => {
   try {
-    let token = "JWT ".concat(getState().authToken);
+    let token = "JWT ".concat(localStorage.getItem("token"));
     let headers = {
       headers: { Authorization: token }
     };
@@ -73,7 +73,6 @@ export const createUser = ({
     const data = await userApi.createUser(payload, headers);
     dispatch(add_user_pending(false));
     dispatch(add_user_success(data));
-    // dispatch(push("/guidelines"));
   } catch (error) {
     dispatch(add_user_pending(false));
     dispatch(add_user_fail(error));

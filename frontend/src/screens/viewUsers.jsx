@@ -17,7 +17,7 @@ export class ViewUsers extends Component {
     return (
       <div>
         <Topbar activeViewUser={active_view_user_class} />
-        <Sidebar activeViewUser={active_view_user_class} />
+        <Sidebar activeViewUser={active_view_user_class.concat(" bg-info")} />
         <Row className="boxStyle">
           <Col md="12">
             <Card body className="border border-primary bgGrey">
@@ -67,4 +67,7 @@ function mapDispatchToProps(dispatch) {
     dispatch
   );
 }
-export default connect(mapStateToProps, mapDispatchToProps)(ViewUsers);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ViewUsers);

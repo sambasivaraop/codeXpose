@@ -1,5 +1,4 @@
 import * as testActions from "../actions/test";
-import { stat } from "fs";
 
 export const testReducers = {
   isCompleted: (state = false, action) => {

@@ -17,7 +17,7 @@ export class ViewTests extends Component {
     return (
       <div>
         <Topbar activeViewTest={active_view_test_class} />
-        <Sidebar activeViewTest={active_view_test_class} />
+        <Sidebar activeViewTest={active_view_test_class.concat(" bg-info")} />
         <Row className="boxStyle">
           <Col md="12">
             <Card body className="border border-primary bgGrey">
@@ -67,4 +67,7 @@ function mapDispatchToProps(dispatch) {
     dispatch
   );
 }
-export default connect(mapStateToProps, mapDispatchToProps)(ViewTests);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ViewTests);

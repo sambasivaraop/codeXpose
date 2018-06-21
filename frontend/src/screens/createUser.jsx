@@ -54,7 +54,7 @@ export class CreateUser extends React.Component {
     const active_create_usr = "active";
     return (
       <div>
-        <Sidebar activeCreateUser={active_create_usr} />
+        <Sidebar activeCreateUser={active_create_usr.concat(" bg-info")} />
         <Topbar activeCreateUser={active_create_usr} />
         <Row className="boxStyle">
           <Col md="12">
@@ -185,4 +185,7 @@ function mapDispatchToProps(dispatch) {
     dispatch
   );
 }
-export default connect(mapStateToProps, mapDispatchToProps)(CreateUser);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateUser);

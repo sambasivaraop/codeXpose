@@ -40,7 +40,7 @@ export const add_ques_fail = error => ({
 
 export const getQuestion = test_id => async (dispatch, getState) => {
   try {
-    let token = "JWT ".concat(getState().authToken);
+    let token = "JWT ".concat(localStorage.getItem("token"));
     let headers = {
       headers: { Authorization: token }
     };
@@ -48,19 +48,16 @@ export const getQuestion = test_id => async (dispatch, getState) => {
     if (test_id) {
       var response = await questionsApi.getQuestion(headers, test_id);
     } else {
-      //get all question
     }
     const data = response.data;
     data["isSolved"] = false;
     const newQuestions = [...questions, data];
     dispatch(setQuestions(newQuestions));
-  } catch (error) {
-    // dispatch(question_get_fail(error));
-  }
+  } catch (error) {}
 };
 export const getAllQuestions = () => async (dispatch, getState) => {
   try {
-    let token = "JWT ".concat(getState().authToken);
+    let token = "JWT ".concat(localStorage.getItem("token"));
     let headers = {
       headers: { Authorization: token }
     };
@@ -75,7 +72,7 @@ export const getAllQuestions = () => async (dispatch, getState) => {
 };
 export const addQuestion = formData => async (dispatch, getState) => {
   try {
-    let token = "JWT ".concat(getState().authToken);
+    let token = "JWT ".concat(localStorage.getItem("token"));
     let headers = {
       headers: {
         Authorization: token,
