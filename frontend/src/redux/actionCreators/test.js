@@ -43,7 +43,18 @@ export const testGetAllSuccess = data => ({
   type: test_actions.TEST_GET_ALL_SUCCESS,
   payload: { data }
 });
-
+export const testSchedulePending = isPending => ({
+  type: test_actions.TEST_SCHEDULE_PENDING,
+  payload: { isPending }
+});
+export const testScheduleSuccess = data => ({
+  type: test_actions.TEST_SCHEDULE_SUCCESS,
+  payload: { data }
+});
+export const testScheduleFail = error => ({
+  type: test_actions.TEST_SCHEDULE_FAIL,
+  payload: { error }
+});
 export const getTest = test_id => async (dispatch, getState) => {
   try {
     let token = "JWT ".concat(localStorage.getItem("token"));
@@ -108,5 +119,24 @@ export const createTest = ({
   } catch (error) {
     dispatch(testCreatePending(false));
     dispatch(testCreateFail(error));
+  }
+};
+export const scheduleTest = ({ candidate, test, schedule }) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    let token = "JWT ".concat(localStorage.getItem("token"));
+    let headers = {
+      headers: { Authorization: token }
+    };
+    let payload = { candidate, test, schedule };
+    dispatch(testSchedulePending(true));
+    const data = await testApi.scheduleTest(payload, headers);
+    dispatch(testSchedulePending(false));
+    dispatch(testScheduleSuccess(data));
+  } catch (error) {
+    dispatch(testSchedulePending(false));
+    dispatch(testScheduleFail(error));
   }
 };
