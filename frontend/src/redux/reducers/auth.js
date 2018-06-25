@@ -5,6 +5,8 @@ export const loginReducers = {
     switch (action.type) {
       case authActions.LOGIN_PENDING:
         return action.payload.isPending;
+      case authActions.LOGOUT_PENDING:
+        return action.payload.isPending;
       default:
         return state;
     }
@@ -13,6 +15,8 @@ export const loginReducers = {
     switch (action.type) {
       case authActions.LOGIN_SUCCESS:
         return action.payload.token;
+      case authActions.LOGOUT_SUCCESS:
+        return action.payload.data;
       default:
         return state;
     }
@@ -20,6 +24,8 @@ export const loginReducers = {
   authError: (state = "", action) => {
     switch (action.type) {
       case authActions.LOGIN_FAIL:
+        return action.payload.error;
+      case authActions.LOGOUT_FAIL:
         return action.payload.error;
       default:
         return state;

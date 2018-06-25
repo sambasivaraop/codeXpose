@@ -23,7 +23,7 @@ export class Question extends Component {
   render() {
     let questionId = this.props.location.pathname.split("/")[2];
     let question = this.props.questions.find(
-      question => question.id === questionId
+      question => question.id == questionId
     );
 
     return (

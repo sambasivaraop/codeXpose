@@ -11,8 +11,8 @@ class App extends Component {
         <Container>
           <Row>
             <Col sm="12" md="12">
+              {localStorage.getItem("token") ? <AppRoutesOutlet /> : ""}
               <AuthRoutesOutlet />
-              <AppRoutesOutlet />
             </Col>
           </Row>
         </Container>
