@@ -1,0 +1,14 @@
+.boxStyle {
+  margin-top: 7%;
+  margin-left: 15%;
+  width: 85%;
+}
+.bgGrey {
+  background: linear-gradient(to top right, #e7e6e3 0%, #eceae1 100%);
+}
+.loginBox {
+  margin-top: 7%;
+  margin-left: 35%;
+  width: 35%;
+  background-color: rgba(255, 255, 255, 0.4);
+}

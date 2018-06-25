@@ -15,21 +15,25 @@ export const testReducers = {
     switch (action.type) {
       case testActions.TEST_GET_PENDING:
         return action.payload.isPending;
+      case testActions.TEST_CREATE_PENDING:
+        return action.payload.isPending;
       default:
         return state;
     }
   },
-  //   testGetsuccess: (state = "", action) => {
-  //     switch (action.type) {
-  //       case testActions.TEST_GET_SUCCESS:
-  //         return action.payload.test_data;
-  //       default:
-  //         return state;
-  //     }
-  //   },
+  testSuccess: (state = "", action) => {
+    switch (action.type) {
+      case testActions.TEST_CREATE_SUCCESS:
+        return action.payload.data;
+      default:
+        return state;
+    }
+  },
   testGetFail: (state = "", action) => {
     switch (action.type) {
       case testActions.TEST_GET_FAIL:
+        return action.payload.error;
+      case testActions.TEST_CREATE_FAIL:
         return action.payload.error;
       default:
         return state;
@@ -40,6 +44,14 @@ export const testReducers = {
       case testActions.TEST_GET_SUCCESS:
         // return action.payload.question_data;
         return Object.assign({}, state, action.payload.test_data);
+      default:
+        return state;
+    }
+  },
+  allTests: (state = [], action) => {
+    switch (action.type) {
+      case testActions.TEST_GET_ALL_SUCCESS:
+        return action.payload.data;
       default:
         return state;
     }

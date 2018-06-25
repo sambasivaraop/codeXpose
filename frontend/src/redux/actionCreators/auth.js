@@ -18,7 +18,6 @@ export const login_fail = error => ({
 
 export const login = ({ username, password }) => async (dispatch, getState) => {
   try {
-    console.log(username, password);
     let payload = {
       email: username,
       password
@@ -26,10 +25,10 @@ export const login = ({ username, password }) => async (dispatch, getState) => {
     dispatch(login_pending(true));
 
     const data = await authApi.login(payload);
-    // const data = JSON.parse(response.data);
     dispatch(login_pending(false));
     dispatch(login_success(data.token));
-    dispatch(push("/guidelines"));
+    localStorage.setItem("token", data.token);
+    dispatch(push("/dashboard"));
   } catch (error) {
     dispatch(login_pending(false));
     dispatch(login_fail(error));

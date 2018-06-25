@@ -120,7 +120,7 @@ setup.cfg
 node_modules/
 frontend/README.md
 frontend/package-lock.json
-frontend/src/*.css
+frontend/src/App.css
 frontend/src/components/
 frontend/src/logo.svg
 frontend/src/App.test.js
