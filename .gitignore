@@ -45,7 +45,8 @@ nosetests.xml
 coverage.xml
 *.cover
 .hypothesis/
-
+#'cover' directory is generated while coverage run. Adding the same to ignore from commit
+cover/
 # Translations
 *.mo
 *.pot

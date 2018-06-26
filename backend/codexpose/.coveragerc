@@ -1,0 +1,10 @@
+[report]
+omit =
+  ./interview/admin.py
+  ./interview/apps.py
+exclude_lines =
+  LOGGER.debug
+  LOGGER.error
+  raise
+  = models*
+  _choice*

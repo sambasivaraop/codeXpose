@@ -16,7 +16,6 @@ import datetime
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -41,6 +40,14 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     'corsheaders',
+    'django_nose',
+]
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=interview',
+    '--cover-html',
 ]
 
 MIDDLEWARE = [
@@ -84,7 +91,7 @@ DATABASES = {
         'TEST_NAME': 'test_codexpose',
         'USER': 'dev',
         'PASSWORD': 'abc@1234',
-        'HOST': 'db',
+        'HOST': '127.0.0.1',
         'PORT': '3306'
     }
 }
@@ -208,7 +215,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': '/var/log/django/codexpose/codexpose.log',
+            'filename': BASE_DIR+'codexpose.log',
             'maxBytes': 1024*1024,  # 1MB
             'backupCount': 5,
             'formatter': 'verbose'
