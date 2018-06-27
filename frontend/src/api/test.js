@@ -1,4 +1,5 @@
 import { test_get_api } from "../config";
+import { schedule_test_api } from "../config";
 import axios from "axios";
 
 export const testApi = {
@@ -11,6 +12,10 @@ export const testApi = {
   },
   async getAllTests(headers) {
     const response = await axios.get(test_get_api, headers);
+    return response.data;
+  },
+  async scheduleTest(payload, headers) {
+    const response = await axios.post(schedule_test_api, payload, headers);
     return response.data;
   }
 };

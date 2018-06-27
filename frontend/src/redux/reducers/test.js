@@ -17,6 +17,8 @@ export const testReducers = {
         return action.payload.isPending;
       case testActions.TEST_CREATE_PENDING:
         return action.payload.isPending;
+      case testActions.TEST_SCHEDULE_PENDING:
+        return action.payload.isPending;
       default:
         return state;
     }
@@ -24,6 +26,8 @@ export const testReducers = {
   testSuccess: (state = "", action) => {
     switch (action.type) {
       case testActions.TEST_CREATE_SUCCESS:
+        return action.payload.data;
+      case testActions.TEST_SCHEDULE_SUCCESS:
         return action.payload.data;
       default:
         return state;
@@ -34,6 +38,8 @@ export const testReducers = {
       case testActions.TEST_GET_FAIL:
         return action.payload.error;
       case testActions.TEST_CREATE_FAIL:
+        return action.payload.error;
+      case testActions.TEST_SCHEDULE_FAIL:
         return action.payload.error;
       default:
         return state;
