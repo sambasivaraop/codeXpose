@@ -4,7 +4,7 @@ import configparser
 from django.test import TestCase
 from interview.models import User
 
-CONFIG_PATH = "interview/tests/config.ini"
+CONFIG_PATH = "interview/tests/test_config.ini"
 
 
 class ManagerTestCase(TestCase):
