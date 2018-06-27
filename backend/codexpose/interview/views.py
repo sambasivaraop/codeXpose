@@ -1,13 +1,16 @@
 """Views file for Interview App."""
 import logging
+import configparser
+import subprocess
+import json
+import datetime
+from datetime import timedelta
 import requests
-
 from django.conf import settings
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import list_route
-
 from .models import Question, User, Test, CandidateTestMapping, \
     CandidateResult, CandidateSolution
 from .serializers import QuestionSerializers, UserSerializers, \
@@ -18,6 +21,7 @@ from .permissions import UserViewSetPermission, QuestionViewSetPermission, \
 
 TOKEN_GET_ENDPOINT = 'http://localhost:8000/api-token-auth/'
 LOGGER = logging.getLogger(__name__)
+CONFIG_PATH = "config.ini"
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
@@ -27,7 +31,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
     """
     queryset = Question.objects.all()
     serializer_class = QuestionSerializers
-    permission_classes = (QuestionViewSetPermission, )
+    permission_classes = (QuestionViewSetPermission,)
 
     def retrieve(self, request, *args, **kwargs):
         """
@@ -56,9 +60,9 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializers
-    permission_classes = (UserViewSetPermission, )
+    permission_classes = (UserViewSetPermission,)
 
-    @list_route(methods=['post'], permission_classes=(),)
+    @list_route(methods=['post'], permission_classes=(), )
     def login(self, request):
         """
         login for any valid user.
@@ -79,7 +83,10 @@ class UserViewSet(viewsets.ModelViewSet):
                             status=status.HTTP_401_UNAUTHORIZED)
         print(resp.text)
         LOGGER.debug("Login successful.")
-        return Response(resp.text, status=status.HTTP_200_OK)
+        user_type = {'user_type': User.objects.get(email=email).user_type}
+        response = json.loads(resp.text)
+        response.update(user_type)
+        return Response(json.dumps(response), status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
         """create the user and put user test mapping in database."""
@@ -119,11 +126,11 @@ class TestViewSet(viewsets.ModelViewSet):
     """
     queryset = Test.objects.all()
     serializer_class = TestSerializers
-    permission_classes = (TestViewSetPermission, )
+    permission_classes = (TestViewSetPermission,)
 
     def perform_create(self, serializer):
         """To populate the created_by field by current logged in user."""
-        serializer.save(created_by=self.request.user)
+        serializer.created_by = self.request.user
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -141,6 +148,77 @@ class TestViewSet(viewsets.ModelViewSet):
             question['problem_statement'] = problem_statement
             question['skeleton'] = skeleton
         return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        """Overridden Create Method to correctly update ManyToMany
+        relationship and corresponding DB entries"""
+        if request.data:
+            questions = request.data.get('question', None)
+            data = {k: v for k, v in request.data.items() if k not in
+                    ['question']}
+            if data['duration'] and (data['duration'] != ""):
+                hours, mins, secs = data['duration'].split(':')
+                data['duration'] = timedelta(hours=int(hours), minutes=int(
+                    mins), seconds=int(secs))
+            test = Test.objects.create(**data)
+            self.perform_create(test)
+            for ques_id in questions:
+                ques = Question.objects.get(id=ques_id)
+                test.question.add(ques)
+            test.save()
+            resp = json.dumps(test.__dict__,
+                              default=lambda obj: (obj.isoformat()
+                                                   if isinstance(obj,
+                                                                 datetime.
+                                                                 datetime)
+                                                   else (obj.total_seconds()
+                                                         if
+                                                         isinstance(obj,
+                                                                    datetime.
+                                                                    timedelta)
+                                                         else None)))
+            return Response(data=json.loads(resp),
+                            status=status.HTTP_201_CREATED)
+        else:
+            return Response(data="Please provide Data.",
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request, *args, **kwargs):
+        """Overridden Update Method to correctly update ManyToMany
+        relationship and corresponding DB entries"""
+        instance = self.get_object()
+        if request.data:
+            questions = request.data.get('question', None)
+            data = {k: v for k, v in request.data.items() if k not in
+                    ['question']}
+            if data['duration'] and (data['duration'] != ""):
+                hours, mins, secs = data['duration'].split(':')
+                data['duration'] = timedelta(hours=int(hours), minutes=int(
+                    mins), seconds=int(secs))
+            Test.objects.filter(id=instance.id).update(**data)
+            test = Test.objects.get(id=instance.id)
+            for question in Question.objects.all():
+                question.test_set.remove(test)
+            for ques_id in map(int, questions):
+                ques = Question.objects.get(id=ques_id)
+                test.question.add(ques)
+            test.save()
+            resp = json.dumps(test.__dict__,
+                              default=lambda obj: (obj.isoformat()
+                                                   if isinstance(obj,
+                                                                 datetime.
+                                                                 datetime)
+                                                   else (obj.total_seconds()
+                                                         if
+                                                         isinstance(obj,
+                                                                    datetime.
+                                                                    timedelta)
+                                                         else None)))
+
+            return Response(data=json.loads(resp))
+        else:
+            return Response(data="Please provide Data.",
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 class CandidateTestMappingViewSet(viewsets.ModelViewSet):
@@ -168,3 +246,19 @@ class CandidateSolutionViewSet(viewsets.ModelViewSet):
     """
     queryset = CandidateSolution.objects.all()
     serializer_class = CandidateSolutionSerializer
+    http_method_names = ['post']
+
+    @list_route(methods=['post'], permission_classes=(), )
+    def run(self, request):
+        """To compile and execute the code written by the candidate"""
+        code = request.data.get('code', None)
+        config = configparser.ConfigParser()
+        config.read(CONFIG_PATH)
+        if code and not "":
+            with open(config['file']['answer_file'], "w+") as code_fp:
+                code_fp.write(code)
+            subprocess.call(['./'+config['file']['script']])
+            with open(config['file']['output_file']) as solution_fp:
+                resp = solution_fp.read()
+            return Response(resp)
+        return Response("No Code To Execute")

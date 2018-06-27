@@ -1,4 +1,5 @@
 """Testcases for Serializers."""
+import configparser
 from rest_framework.test import APITestCase
 
 from interview.models import Question
@@ -9,22 +10,28 @@ from interview.serializers import QuestionSerializers
 from interview.serializers import TestSerializers
 from interview.serializers import UserSerializers
 
+CONFIG_PATH = "interview/tests/test_config.ini"
+
 
 class QuestionSerializerTest(APITestCase):
     """ Test class for Question serializers. """
     def setUp(self):
         """ setUp method for QuestionSerializerTest class. """
+        self.config = configparser.ConfigParser()
+        self.config.read(CONFIG_PATH)
         self.question_attributes = {
-            'question_id': 1,
-            'title': 'Binary Search',
-            'question_type': 'Programming',
-            'marks': 100
+            'id': self.config['questionSerializer']['id'],
+            'title': self.config['questionSerializer']['title'],
+            'question_type': self.config['questionSerializer']
+                             ['question_type'],
+            'marks': self.config['questionSerializer']['marks']
         }
         self.serializer_data = {
-            'question_id': 1,
-            'title': 'Binary Search',
-            'question_type': 'Programming',
-            'marks': 100
+            'id': self.config['questionSerializer']['id'],
+            'title': self.config['questionSerializer']['title'],
+            'question_type': self.config['questionSerializer'][
+                'question_type'],
+            'marks': self.config['questionSerializer']['marks']
         }
 
         self.question = Question.objects.create(**self.question_attributes)
@@ -34,8 +41,7 @@ class QuestionSerializerTest(APITestCase):
         """ To test expected fields. """
         data = self.serializer.data
         self.assertEqual(sorted(list(data.keys())), sorted(
-            ['question_id',
-             'title',
+            ['title',
              'question_type',
              'marks', 'id',
              'problem_statement',
@@ -59,13 +65,13 @@ class QuestionSerializerTest(APITestCase):
     def test_marks_field_content(self):
         """ To test marks field content. """
         data = self.serializer.data
-        self.assertEqual(data['marks'], self.question_attributes['marks'])
+        self.assertEqual(data['marks'], int(self.question_attributes['marks']))
 
     def test_question_id_field_content(self):
         """ To test question id field content. """
         data = self.serializer.data
-        self.assertEqual(data['question_id'], self.question_attributes[
-            'question_id'])
+        self.assertEqual(data['id'], int(self.question_attributes[
+            'id']))
 
     def test_default_field_content(self):
         """ To test fields' default values. """
@@ -80,12 +86,14 @@ class UserSerializerTest(APITestCase):
     """ Test class for User serializers. """
     def setUp(self):
         """ setUp method for UserSerializerTest class. """
+        self.config = configparser.ConfigParser()
+        self.config.read(CONFIG_PATH)
         self.user_attributes = {
-            'first_name': 'Arun',
-            'last_name': 'Verma',
-            'email': 'arun@mail.com',
-            'password': 'abc@1234',
-            'user_type': 'INTERVIEWER'
+            'first_name': self.config['user']['first_name'],
+            'last_name': self.config['user']['last_name'],
+            'email': self.config['user']['email'],
+            'password': self.config['user']['password'],
+            'user_type': self.config['user']['user_type']
         }
 
         self.user = User.objects.create(**self.user_attributes)
@@ -135,9 +143,11 @@ class TestSerializerTest(APITestCase):
     """ Test class for Test serializers. """
     def setUp(self):
         """ setUp method for TestSerializerTest class. """
+        self.config = configparser.ConfigParser()
+        self.config.read(CONFIG_PATH)
         self.test_attributes = {
-            'title': 'Development',
-            'test_type': 'PROGRAMMING'
+            'title': self.config['test']['title'],
+            'test_type': self.config['test']['test_type']
         }
 
         self.test = Test.objects.create(**self.test_attributes)

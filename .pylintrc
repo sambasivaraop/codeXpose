@@ -3,4 +3,4 @@ load-plugins=pylint_django
 ignore=migrations, local_settings.py
 
 [MESSAGES CONTROL]
-disable=unused-argument, too-few-public-methods, no-self-use, fixme, too-many-ancestors, bare-except, wildcard-import, unused-wildcard-import
+disable=unused-argument, too-few-public-methods, no-self-use, fixme, too-many-ancestors, bare-except, wildcard-import, unused-wildcard-import, too-many-locals
