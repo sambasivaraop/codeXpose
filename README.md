@@ -16,7 +16,7 @@ Ops - Ansible/Docker/Nginx
 Follow the below steps to get the development environment up and running.
 
 ### Clone the repo
-`$ git clone https://github.com/inovizz/codeXpose.git`<br>
+`$ git clone https://github.com/Imaginea/codeXpose.git`<br>
 `$ cd codeXpose`<br>
 
 ## Using Ansible 

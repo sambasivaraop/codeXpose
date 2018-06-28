@@ -1,4 +1,5 @@
 """Views file for Interview App."""
+import os
 import logging
 import configparser
 import subprocess
@@ -21,7 +22,7 @@ from .permissions import UserViewSetPermission, QuestionViewSetPermission, \
 
 TOKEN_GET_ENDPOINT = 'http://localhost:8000/api-token-auth/'
 LOGGER = logging.getLogger(__name__)
-CONFIG_PATH = "config.ini"
+CONFIG_FILE = "config.ini"
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
@@ -81,7 +82,6 @@ class UserViewSet(viewsets.ModelViewSet):
             LOGGER.error("Invalid credentials, Login failed!.")
             return Response(data="Invalid Credentials",
                             status=status.HTTP_401_UNAUTHORIZED)
-        print(resp.text)
         LOGGER.debug("Login successful.")
         user_type = {'user_type': User.objects.get(email=email).user_type}
         response = json.loads(resp.text)
@@ -251,14 +251,22 @@ class CandidateSolutionViewSet(viewsets.ModelViewSet):
     @list_route(methods=['post'], permission_classes=(), )
     def run(self, request):
         """To compile and execute the code written by the candidate"""
-        code = request.data.get('code', None)
+        dir_path = os.path.split(os.path.dirname(__file__))[0]
+        config_path = os.path.join(dir_path, CONFIG_FILE)
+
         config = configparser.ConfigParser()
-        config.read(CONFIG_PATH)
+        config.read(config_path)
+
+        script_path = os.path.join(dir_path, config['file']['script'])
+        answer_path = os.path.join(dir_path, config['file']['answer_file'])
+        output_path = os.path.join(dir_path, config['file']['output_file'])
+
+        code = request.data.get('code', None)
         if code and not "":
-            with open(config['file']['answer_file'], "w+") as code_fp:
+            with open(answer_path, "w+") as code_fp:
                 code_fp.write(code)
-            subprocess.call(['./'+config['file']['script']])
-            with open(config['file']['output_file']) as solution_fp:
+            subprocess.call([script_path])
+            with open(output_path) as solution_fp:
                 resp = solution_fp.read()
-            return Response(resp)
+            return Response(resp.rstrip('\n'))
         return Response("No Code To Execute")
