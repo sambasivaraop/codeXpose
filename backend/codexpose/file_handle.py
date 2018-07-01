@@ -22,7 +22,8 @@ try:
     compile_code = compile(code, config['file']['answer_file'], 'exec')
     exec(compile_code)
 except Exception as e:
-    message = str(sys.exc_info()[1:2]).strip("()")
+    message = "%s: %s" % (str(sys.exc_info()[0].__name__),
+                          str(sys.exc_info()[1:2][0]))
     log_handle.setFormatter(logging.Formatter('%(message)s'))
     LOGGER.addHandler(log_handle)
     LOGGER.error(message)
