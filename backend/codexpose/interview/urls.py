@@ -12,6 +12,7 @@ router.register(r'user', UserViewSet)
 router.register(r'test', TestViewSet)
 router.register(r'schedule_test', CandidateTestMappingViewSet)
 router.register(r'execute', CandidateSolutionViewSet)
+router.register(r'candidate/test', CandidateTestMappingViewSet)
 
 app_name = 'interview'
 urlpatterns = []

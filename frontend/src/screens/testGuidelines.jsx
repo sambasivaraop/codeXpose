@@ -22,7 +22,7 @@ export class TestGuideline extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.getTest(1);
+    this.props.getTest(this.props.test_id);
   };
 
   handleInputChange = event => {
@@ -81,7 +81,8 @@ function mapStateToProps(state) {
     completed: state.isCompleted,
     getPending: state.testGetPending,
     getFail: state.testGetFail,
-    data: state.testData
+    data: state.testData,
+    test_id: state.testID
   };
 }
 
@@ -94,4 +95,7 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TestGuideline);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TestGuideline);

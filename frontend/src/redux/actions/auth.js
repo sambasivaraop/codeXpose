@@ -12,3 +12,6 @@ export const LOGOUT_FAIL = "LOGOUT_FAIL";
 export const CHANGE_PWD_PENDING = "CHANGE_PWD_PENDING";
 export const CHANGE_PWD_SUCCESS = "CHANGE_PWD_SUCCESS";
 export const CHANGE_PWD_FAIL = "CHANGE_PWD_FAIL";
+
+/******** GET TEST ID ********* */
+export const GET_TEST_ID = "GET_TEST_ID";

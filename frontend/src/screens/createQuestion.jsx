@@ -13,7 +13,8 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Alert
 } from "reactstrap";
 
 var form_data = new FormData();
@@ -21,7 +22,7 @@ export class CreateQuestion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      question_id: "",
+      id: "",
       title: "",
       question_type: "",
       marks: "",
@@ -50,160 +51,178 @@ export class CreateQuestion extends React.Component {
   };
   render() {
     const active_create_ques = "active";
+    var alertDiv = "";
+    if (this.props.success) {
+      alertDiv = (
+        <Alert color="success">Question has been successfully created.</Alert>
+      );
+    }
+    if (this.props.error) {
+      alertDiv = <Alert color="danger">{this.props.error.response.data}</Alert>;
+    }
     return (
       <div>
-        <Sidebar activeCreateQues={active_create_ques.concat(" bg-info")} />
-        <Topbar />
-        <Row className="boxStyle">
-          <Col md="12">
-            <Card body className="border border-primary bgGrey">
-              <CardTitle> Create Question </CardTitle>
-              <br />
-              <Form
-                name="ques-form"
-                id="ques-form"
-                onSubmit={this.handleSubmit}
-              >
-                <FormGroup row>
-                  <Label size="sm" htmlFor="question_id" md={2}>
-                    Question Id*
-                  </Label>
-                  <Col md={4}>
-                    <Input
-                      bsSize="sm"
-                      type="text"
-                      id="question_id"
-                      name="question_id"
-                      placeholder="Question Id"
-                      required
-                      value={this.state.question_id}
-                      onChange={this.handleInputChange}
-                    />
-                  </Col>
-                  <Label size="sm" htmlFor="title" md={2}>
-                    Title*
-                  </Label>
-                  <Col md={4}>
-                    <Input
-                      bsSize="sm"
-                      type="text"
-                      id="title"
-                      name="title"
-                      placeholder="Title"
-                      required
-                      value={this.state.title}
-                      onChange={this.handleInputChange}
-                    />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Label size="sm" htmlFor="question_type" md={2}>
-                    Question Type*
-                  </Label>
-                  <Col md={4}>
-                    <Input
-                      bsSize="sm"
-                      type="text"
-                      id="question_type"
-                      name="question_type"
-                      placeholder="Question Type"
-                      required
-                      value={this.state.question_type}
-                      onChange={this.handleInputChange}
-                    />
-                  </Col>
-                  <Label size="sm" htmlFor="problem_statement" md={2}>
-                    Problem Statement*
-                  </Label>
-                  <Col md={4}>
-                    <Input
-                      bsSize="sm"
-                      type="file"
-                      id="problem_statement"
-                      name="problem_statement"
-                      required
-                      onChange={this.handleInputChange}
-                    />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Label size="sm" htmlFor="test_cases" md={2}>
-                    Test Cases*
-                  </Label>
-                  <Col md={4}>
-                    <Input
-                      bsSize="sm"
-                      type="file"
-                      id="test_cases"
-                      name="test_cases"
-                      required
-                      onChange={this.handleInputChange}
-                    />
-                  </Col>
-                  <Label size="sm" htmlFor="skeleton" md={2}>
-                    Skeleton*
-                  </Label>
-                  <Col md={4}>
-                    <Input
-                      bsSize="sm"
-                      type="file"
-                      id="skeleton"
-                      name="skeleton"
-                      required
-                      onChange={this.handleInputChange}
-                    />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Label size="sm" htmlFor="marks" md={2}>
-                    Marks*
-                  </Label>
-                  <Col md={4}>
-                    <Input
-                      bsSize="sm"
-                      type="text"
-                      id="marks"
-                      name="marks"
-                      placeholder="Marks"
-                      required
-                      value={this.state.marks}
-                      onChange={this.handleInputChange}
-                    />
-                  </Col>
-                  <Label size="sm" htmlFor="difficulty" md={2}>
-                    Difficulty*
-                  </Label>
-                  <Col md={4}>
-                    <Input
-                      bsSize="sm"
-                      type="select"
-                      id="difficulty"
-                      name="difficulty"
-                      required
-                      value={this.state.difficulty}
-                      onChange={this.handleInputChange}
-                    >
-                      <option value="">--- Please Select ---</option>
-                      <option value="EASY">Easy</option>
-                      <option value="MEDIUM">Medium</option>
-                      <option value="HARD">Hard</option>
-                    </Input>
-                  </Col>
-                </FormGroup>
-                <br />
-                <FormGroup row>
-                  <Col md={12}>
-                    <center>
-                      <Button size="sm" type="submit" outline color="primary">
-                        Submit
-                      </Button>
-                    </center>
-                  </Col>
-                </FormGroup>
-              </Form>
-            </Card>
-          </Col>
-        </Row>
+        {localStorage.getItem("user_type") === "INTERVIEWER" ? (
+          <div>
+            <Sidebar activeCreateQues={active_create_ques.concat(" bg-info")} />
+            <Topbar />
+            <Row className="boxStyle">
+              <Col md="12">
+                <Card body outline color="info" className="bgGrey">
+                  <CardTitle> Create Question </CardTitle>
+                  <br />
+                  {alertDiv}
+                  <Form
+                    name="ques-form"
+                    id="ques-form"
+                    onSubmit={this.handleSubmit}
+                  >
+                    <FormGroup row>
+                      <Label size="sm" htmlFor="id" md={2}>
+                        Question Id*
+                      </Label>
+                      <Col md={4}>
+                        <Input
+                          bsSize="sm"
+                          type="text"
+                          id="id"
+                          name="id"
+                          placeholder="Question Id"
+                          required
+                          value={this.state.id}
+                          onChange={this.handleInputChange}
+                        />
+                      </Col>
+                      <Label size="sm" htmlFor="title" md={2}>
+                        Title*
+                      </Label>
+                      <Col md={4}>
+                        <Input
+                          bsSize="sm"
+                          type="text"
+                          id="title"
+                          name="title"
+                          placeholder="Title"
+                          required
+                          value={this.state.title}
+                          onChange={this.handleInputChange}
+                        />
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Label size="sm" htmlFor="question_type" md={2}>
+                        Question Type*
+                      </Label>
+                      <Col md={4}>
+                        <Input
+                          bsSize="sm"
+                          type="text"
+                          id="question_type"
+                          name="question_type"
+                          placeholder="Question Type"
+                          required
+                          value={this.state.question_type}
+                          onChange={this.handleInputChange}
+                        />
+                      </Col>
+                      <Label size="sm" htmlFor="problem_statement" md={2}>
+                        Problem Statement*
+                      </Label>
+                      <Col md={4}>
+                        <Input
+                          bsSize="sm"
+                          type="file"
+                          id="problem_statement"
+                          name="problem_statement"
+                          required
+                          onChange={this.handleInputChange}
+                        />
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Label size="sm" htmlFor="test_cases" md={2}>
+                        Test Cases*
+                      </Label>
+                      <Col md={4}>
+                        <Input
+                          bsSize="sm"
+                          type="file"
+                          id="test_cases"
+                          name="test_cases"
+                          required
+                          onChange={this.handleInputChange}
+                        />
+                      </Col>
+                      <Label size="sm" htmlFor="skeleton" md={2}>
+                        Skeleton*
+                      </Label>
+                      <Col md={4}>
+                        <Input
+                          bsSize="sm"
+                          type="file"
+                          id="skeleton"
+                          name="skeleton"
+                          required
+                          onChange={this.handleInputChange}
+                        />
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Label size="sm" htmlFor="marks" md={2}>
+                        Marks*
+                      </Label>
+                      <Col md={4}>
+                        <Input
+                          bsSize="sm"
+                          type="text"
+                          id="marks"
+                          name="marks"
+                          placeholder="Marks"
+                          required
+                          value={this.state.marks}
+                          onChange={this.handleInputChange}
+                        />
+                      </Col>
+                      <Label size="sm" htmlFor="difficulty" md={2}>
+                        Difficulty*
+                      </Label>
+                      <Col md={4}>
+                        <Input
+                          bsSize="sm"
+                          type="select"
+                          id="difficulty"
+                          name="difficulty"
+                          required
+                          value={this.state.difficulty}
+                          onChange={this.handleInputChange}
+                        >
+                          <option value="">--- Please Select ---</option>
+                          <option value="EASY">Easy</option>
+                          <option value="MEDIUM">Medium</option>
+                          <option value="HARD">Hard</option>
+                        </Input>
+                      </Col>
+                    </FormGroup>
+                    <br />
+                    <FormGroup row>
+                      <Col md={12}>
+                        <center>
+                          <Button size="sm" type="submit" outline color="info">
+                            Submit
+                          </Button>
+                        </center>
+                      </Col>
+                    </FormGroup>
+                  </Form>
+                </Card>
+              </Col>
+            </Row>
+          </div>
+        ) : (
+          <div>
+            <h4>Sorry! You are not authorized.</h4>
+          </div>
+        )}
       </div>
     );
   }

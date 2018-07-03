@@ -26,6 +26,8 @@ class UserViewSetPermission(permissions.BasePermission):
 class QuestionViewSetPermission(permissions.BasePermission):
     """Custom permission class for Question view set."""
     def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
         user = request.user
         if user.user_type != 'INTERVIEWER':
             LOGGER.debug("%s is invalid user operation for Question object "
@@ -41,6 +43,8 @@ class TestViewSetPermission(permissions.BasePermission):
     """Custom permission class for Test view set."""
 
     def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
         user = request.user
         if user.user_type != 'INTERVIEWER':
             LOGGER.debug("%s is invalid user operation for Test object by "

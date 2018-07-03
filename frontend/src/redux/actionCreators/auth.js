@@ -27,6 +27,10 @@ export const logoutFail = error => ({
   type: auth.LOGOUT_FAIL,
   payload: { error }
 });
+export const get_test_id = id => ({
+  type: auth.GET_TEST_ID,
+  payload: { id }
+});
 
 export const login = ({ username, password }) => async (dispatch, getState) => {
   try {
@@ -35,12 +39,23 @@ export const login = ({ username, password }) => async (dispatch, getState) => {
       password
     };
     dispatch(login_pending(true));
-
     const data = await authApi.login(payload);
     dispatch(login_pending(false));
-    dispatch(login_success(data.token));
     localStorage.setItem("token", data.token);
-    dispatch(push("/dashboard"));
+    localStorage.setItem("user_type", data.user_type);
+    dispatch(login_success(data));
+    dispatch(login_fail(false));
+    if (data.user_type === "CANDIDATE") {
+      let token = "JWT ".concat(data.token);
+      let headers = {
+        headers: { Authorization: token }
+      };
+      const test_id = await authApi.getTestId(headers);
+      dispatch(get_test_id(test_id));
+      dispatch(push("/home"));
+    } else {
+      dispatch(push("/dashboard"));
+    }
   } catch (error) {
     dispatch(login_pending(false));
     dispatch(login_fail(error));
@@ -50,6 +65,7 @@ export const logout = () => async (dispatch, getState) => {
   try {
     dispatch(logoutPending(true));
     localStorage.removeItem("token");
+    localStorage.removeItem("user_type");
     dispatch(push("/login"));
     dispatch(logoutPending(false));
     dispatch(logoutSuccess(true));

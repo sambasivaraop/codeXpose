@@ -13,7 +13,8 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Alert
 } from "reactstrap";
 
 export class CreateUser extends React.Component {
@@ -52,118 +53,136 @@ export class CreateUser extends React.Component {
   };
   render() {
     const active_create_usr = "active";
+    var alertDiv = "";
+    if (this.props.success) {
+      alertDiv = (
+        <Alert color="success">User has been successfully created.</Alert>
+      );
+    }
+    if (this.props.error) {
+      alertDiv = <Alert color="danger">{this.props.error.response.data}</Alert>;
+    }
     return (
       <div>
-        <Sidebar activeCreateUser={active_create_usr.concat(" bg-info")} />
-        <Topbar activeCreateUser={active_create_usr} />
-        <Row className="boxStyle">
-          <Col md="12">
-            <Card body className="border border-primary bgGrey">
-              <CardTitle> Create User </CardTitle>
-              <br />
-              <Form
-                name="user-form"
-                id="user-form"
-                onSubmit={this.handleSubmit}
-              >
-                <FormGroup row>
-                  <Label size="sm" htmlFor="first_name" md={2}>
-                    First Name*
-                  </Label>
-                  <Col md={4}>
-                    <Input
-                      bsSize="sm"
-                      type="text"
-                      id="first_name"
-                      name="first_name"
-                      placeholder="First Name"
-                      required
-                      value={this.state.first_name}
-                      onChange={this.handleInputChange}
-                    />
-                  </Col>
-                  <Label size="sm" htmlFor="last_name" md={2}>
-                    Last Name*
-                  </Label>
-                  <Col md={4}>
-                    <Input
-                      bsSize="sm"
-                      type="text"
-                      id="last_name"
-                      name="last_name"
-                      placeholder="Last Name"
-                      required
-                      value={this.state.last_name}
-                      onChange={this.handleInputChange}
-                    />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Label size="sm" htmlFor="email" md={2}>
-                    Email ID*
-                  </Label>
-                  <Col md={4}>
-                    <Input
-                      bsSize="sm"
-                      type="email"
-                      id="email"
-                      name="email"
-                      placeholder="Email ID"
-                      required
-                      value={this.state.email}
-                      onChange={this.handleInputChange}
-                    />
-                  </Col>
-                  <Label size="sm" htmlFor="pwd" md={2}>
-                    Password*
-                  </Label>
-                  <Col md={4}>
-                    <Input
-                      bsSize="sm"
-                      type="password"
-                      id="password"
-                      name="password"
-                      placeholder="Password"
-                      required
-                      value={this.state.password}
-                      onChange={this.handleInputChange}
-                    />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Label size="sm" htmlFor="user_type" md={2}>
-                    User Type*
-                  </Label>
-                  <Col md={4}>
-                    <Input
-                      bsSize="sm"
-                      type="select"
-                      id="user_type"
-                      name="user_type"
-                      required
-                      value={this.state.user_type}
-                      onChange={this.handleInputChange}
-                    >
-                      <option value="">--- Please Select ---</option>
-                      <option value="INTERVIEWER">Interviewer</option>
-                      <option value="CANDIDATE">Candidate</option>
-                    </Input>
-                  </Col>
-                </FormGroup>
-                <br />
-                <FormGroup row>
-                  <Col md={12}>
-                    <center>
-                      <Button size="sm" type="submit" outline color="primary">
-                        Submit
-                      </Button>
-                    </center>
-                  </Col>
-                </FormGroup>
-              </Form>
-            </Card>
-          </Col>
-        </Row>
+        {localStorage.getItem("user_type") === "INTERVIEWER" ? (
+          <div>
+            <Sidebar activeCreateUser={active_create_usr.concat(" bg-info")} />
+            <Topbar activeCreateUser={active_create_usr} />
+            <Row className="boxStyle">
+              <Col md="12">
+                <Card body outline color="info" className="bgGrey">
+                  <CardTitle> Create User </CardTitle>
+                  <br />
+                  {alertDiv}
+                  <Form
+                    name="user-form"
+                    id="user-form"
+                    onSubmit={this.handleSubmit}
+                  >
+                    <FormGroup row>
+                      <Label size="sm" htmlFor="first_name" md={2}>
+                        First Name*
+                      </Label>
+                      <Col md={4}>
+                        <Input
+                          bsSize="sm"
+                          type="text"
+                          id="first_name"
+                          name="first_name"
+                          placeholder="First Name"
+                          required
+                          value={this.state.first_name}
+                          onChange={this.handleInputChange}
+                        />
+                      </Col>
+                      <Label size="sm" htmlFor="last_name" md={2}>
+                        Last Name*
+                      </Label>
+                      <Col md={4}>
+                        <Input
+                          bsSize="sm"
+                          type="text"
+                          id="last_name"
+                          name="last_name"
+                          placeholder="Last Name"
+                          required
+                          value={this.state.last_name}
+                          onChange={this.handleInputChange}
+                        />
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Label size="sm" htmlFor="email" md={2}>
+                        Email ID*
+                      </Label>
+                      <Col md={4}>
+                        <Input
+                          bsSize="sm"
+                          type="email"
+                          id="email"
+                          name="email"
+                          placeholder="Email ID"
+                          required
+                          value={this.state.email}
+                          onChange={this.handleInputChange}
+                        />
+                      </Col>
+                      <Label size="sm" htmlFor="pwd" md={2}>
+                        Password*
+                      </Label>
+                      <Col md={4}>
+                        <Input
+                          bsSize="sm"
+                          type="password"
+                          id="password"
+                          name="password"
+                          placeholder="Password"
+                          required
+                          value={this.state.password}
+                          onChange={this.handleInputChange}
+                        />
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Label size="sm" htmlFor="user_type" md={2}>
+                        User Type*
+                      </Label>
+                      <Col md={4}>
+                        <Input
+                          bsSize="sm"
+                          type="select"
+                          id="user_type"
+                          name="user_type"
+                          required
+                          value={this.state.user_type}
+                          onChange={this.handleInputChange}
+                        >
+                          <option value="">--- Please Select ---</option>
+                          <option value="INTERVIEWER">Interviewer</option>
+                          <option value="CANDIDATE">Candidate</option>
+                        </Input>
+                      </Col>
+                    </FormGroup>
+                    <br />
+                    <FormGroup row>
+                      <Col md={12}>
+                        <center>
+                          <Button size="sm" type="submit" outline color="info">
+                            Submit
+                          </Button>
+                        </center>
+                      </Col>
+                    </FormGroup>
+                  </Form>
+                </Card>
+              </Col>
+            </Row>
+          </div>
+        ) : (
+          <div>
+            <h4>Sorry! You are not authorized. </h4>
+          </div>
+        )}
       </div>
     );
   }

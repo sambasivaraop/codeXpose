@@ -55,6 +55,18 @@ export const testScheduleFail = error => ({
   type: test_actions.TEST_SCHEDULE_FAIL,
   payload: { error }
 });
+export const compilePending = isPending => ({
+  type: test_actions.COMPILE_PENDING,
+  payload: { isPending }
+});
+export const compileSuccess = data => ({
+  type: test_actions.COMPILE_SUCCESS,
+  payload: { data }
+});
+export const compileFail = error => ({
+  type: test_actions.COMPILE_FAIL,
+  payload: { error }
+});
 export const getTest = test_id => async (dispatch, getState) => {
   try {
     let token = "JWT ".concat(localStorage.getItem("token"));
@@ -138,5 +150,23 @@ export const scheduleTest = ({ candidate, test, schedule }) => async (
   } catch (error) {
     dispatch(testSchedulePending(false));
     dispatch(testScheduleFail(error));
+  }
+};
+export const compileCode = code => async (dispatch, getState) => {
+  try {
+    let token = "JWT ".concat(localStorage.getItem("token"));
+    let headers = {
+      headers: { Authorization: token }
+    };
+    let payload = {
+      code: code
+    };
+    dispatch(compilePending(true));
+    const data = await testApi.compileCode(payload, headers);
+    dispatch(compilePending(false));
+    dispatch(compileSuccess(data));
+  } catch (error) {
+    dispatch(compilePending(false));
+    dispatch(compileFail(error));
   }
 };
