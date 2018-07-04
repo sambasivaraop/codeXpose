@@ -3,7 +3,11 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Topbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import { addQuestion } from "../redux/actionCreators/questions";
+import {
+  addQuestion,
+  add_ques_success,
+  add_ques_fail
+} from "../redux/actionCreators/questions";
 import {
   Card,
   Button,
@@ -31,6 +35,8 @@ export class CreateQuestion extends React.Component {
       test_cases: null,
       problem_statement: null
     };
+    this.props.add_ques_success(null);
+    this.props.add_ques_fail(null);
   }
   handleInputChange = event => {
     const target = event.target;
@@ -235,7 +241,10 @@ function mapStateToProps(state) {
   };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ addQuestion }, dispatch);
+  return bindActionCreators(
+    { addQuestion, add_ques_success, add_ques_fail },
+    dispatch
+  );
 }
 export default connect(
   mapStateToProps,

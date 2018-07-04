@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { compileCode } from "../redux/actionCreators/test";
-import Topbar from "../components/Navbar";
+import { compileCode, compileSuccess } from "../redux/actionCreators/test";
+import TopbarCandidate from "../components/Navbar_candidate";
 import Sidebar from "../components/Sidebar";
 import {
   Button,
@@ -26,6 +26,7 @@ export class Question extends Component {
     this.state = {
       text: question.skeleton
     };
+    this.props.compileSuccess(null);
   }
   handleInputChange = event => {
     event.preventDefault();
@@ -45,7 +46,7 @@ export class Question extends Component {
     }
     return (
       <div className="row">
-        <Topbar />
+        <TopbarCandidate />
         <Sidebar />
         <Card outline color="info" className="boxStyle bgGrey">
           <CardTitle> {question.title} </CardTitle>
@@ -91,7 +92,7 @@ function mapStateToProps(state) {
   };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ compileCode }, dispatch);
+  return bindActionCreators({ compileCode, compileSuccess }, dispatch);
 }
 
 export default connect(

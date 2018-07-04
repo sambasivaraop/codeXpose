@@ -5,7 +5,12 @@ import Datetime from "react-datetime";
 import Topbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { getUsers } from "../redux/actionCreators/users";
-import { getAlltests, scheduleTest } from "../redux/actionCreators/test";
+import {
+  getAlltests,
+  scheduleTest,
+  testScheduleSuccess,
+  testScheduleFail
+} from "../redux/actionCreators/test";
 import {
   Card,
   Button,
@@ -27,6 +32,8 @@ export class ScheduleTest extends React.Component {
       test: "",
       schedule: new Date()
     };
+    this.props.testScheduleSuccess(null);
+    this.props.testScheduleFail(null);
     this.props.getAlltests();
     this.props.getUsers();
   }
@@ -173,15 +180,24 @@ export class ScheduleTest extends React.Component {
 }
 function mapStateToProps(state) {
   return {
-    pending: state.questionsPending,
-    success: state.questionsSuccess,
-    error: state.questionsFail,
+    pending: state.testGetPending,
+    success: state.testSuccess,
+    error: state.testGetFail,
     test: state.allTests,
     users: state.userData
   };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getAlltests, scheduleTest, getUsers }, dispatch);
+  return bindActionCreators(
+    {
+      getAlltests,
+      scheduleTest,
+      getUsers,
+      testScheduleFail,
+      testScheduleSuccess
+    },
+    dispatch
+  );
 }
 export default connect(
   mapStateToProps,

@@ -47,7 +47,7 @@ export default class CandidateHome extends React.Component {
                           />
                         </center>
                       </CardTitle>
-                      <Link className="badge badge-pill badge-danger" to="/#/">
+                      <Link className="badge badge-pill badge-danger" to="#">
                         My Profile
                       </Link>
                     </Card>

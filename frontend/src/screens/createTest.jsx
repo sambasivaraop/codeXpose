@@ -6,7 +6,11 @@ import moment from "moment";
 import Topbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { getAllQuestions } from "../redux/actionCreators/questions";
-import { createTest } from "../redux/actionCreators/test";
+import {
+  createTest,
+  testCreateSuccess,
+  testCreateFail
+} from "../redux/actionCreators/test";
 import {
   Card,
   Button,
@@ -30,6 +34,8 @@ export class CreateTest extends React.Component {
       question: [],
       difficulty: ""
     };
+    this.props.testCreateSuccess(null);
+    this.props.testCreateFail(null);
     this.props.getAllQuestions();
   }
   handleInputChange = event => {
@@ -215,14 +221,17 @@ export class CreateTest extends React.Component {
 }
 function mapStateToProps(state) {
   return {
-    pending: state.questionsPending,
-    success: state.questionsSuccess,
-    error: state.questionsFail,
+    pending: state.testGetPending,
+    success: state.testSuccess,
+    error: state.testGetFail,
     questions: state.allQuestions
   };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getAllQuestions, createTest }, dispatch);
+  return bindActionCreators(
+    { getAllQuestions, createTest, testCreateFail, testCreateSuccess },
+    dispatch
+  );
 }
 export default connect(
   mapStateToProps,

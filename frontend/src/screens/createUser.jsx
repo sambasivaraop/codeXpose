@@ -3,7 +3,11 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Topbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import { createUser } from "../redux/actionCreators/users";
+import {
+  createUser,
+  add_user_success,
+  add_user_fail
+} from "../redux/actionCreators/users";
 import {
   Card,
   Button,
@@ -28,6 +32,8 @@ export class CreateUser extends React.Component {
       user_type: "",
       enableAlert: false
     };
+    this.props.add_user_success(null);
+    this.props.add_user_fail(null);
   }
   handleInputChange = event => {
     const value =
@@ -199,7 +205,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      createUser
+      createUser,
+      add_user_success,
+      add_user_fail
     },
     dispatch
   );

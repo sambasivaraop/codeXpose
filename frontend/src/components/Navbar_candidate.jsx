@@ -46,7 +46,7 @@ export class TopbarCandidate extends React.Component {
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <Link className={dashboard_active} to="/dashboard">
+              <Link className={dashboard_active} to="/home">
                 Home
               </Link>
             </NavItem>
