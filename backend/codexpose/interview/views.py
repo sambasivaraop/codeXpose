@@ -229,6 +229,15 @@ class CandidateTestMappingViewSet(viewsets.ModelViewSet):
     queryset = CandidateTestMapping.objects.all()
     serializer_class = CandidateTestMappingSerializer
 
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases
+        for the currently authenticated user.
+        """
+
+        user = self.request.user
+        return CandidateTestMapping.objects.filter(candidate_id=user.id)
+
 
 class CandidateResultViewSet(viewsets.ModelViewSet):
     """

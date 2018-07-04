@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Topbar from "../components/Navbar";
+import { bindActionCreators } from "redux";
+import { compileCode, compileSuccess } from "../redux/actionCreators/test";
+import TopbarCandidate from "../components/Navbar_candidate";
 import Sidebar from "../components/Sidebar";
 import {
   Button,
@@ -9,30 +11,47 @@ import {
   CardTitle,
   Form,
   FormGroup,
-  Col
+  Col,
+  Alert
 } from "reactstrap";
+
+var question = "";
+var questionId = "";
 
 export class Question extends Component {
   constructor(props) {
     super(props);
+    questionId = this.props.location.pathname.split("/")[2];
+    question = this.props.questions.find(question => question.id == questionId);
+    this.state = {
+      text: question.skeleton
+    };
+    this.props.compileSuccess(null);
   }
   handleInputChange = event => {
     event.preventDefault();
+    this.setState({
+      text: event.target.value
+    });
     window.runit();
   };
+  handleClick = () => {
+    const code = this.state.text;
+    this.props.compileCode(code);
+  };
   render() {
-    let questionId = this.props.location.pathname.split("/")[2];
-    let question = this.props.questions.find(
-      question => question.id == questionId
-    );
-
+    var alertDiv = "";
+    if (this.props.output) {
+      alertDiv = <Alert color="success">Output: {this.props.output}</Alert>;
+    }
     return (
       <div className="row">
-        <Topbar />
+        <TopbarCandidate />
         <Sidebar />
-        <Card className="boxStyle">
+        <Card outline color="info" className="boxStyle bgGrey">
           <CardTitle> {question.title} </CardTitle>
           <CardBody>
+            {alertDiv}
             <Form name="code-editor" id="code-editor">
               <FormGroup>
                 <p> {question.problem_statement} </p>
@@ -44,15 +63,18 @@ export class Question extends Component {
                     rows="10"
                     name="text"
                     id="my-code"
+                    value={this.state.text}
                     onChange={this.handleInputChange}
-                    defaultValue={question.skeleton}
+                    // defaultValue={question.skeleton}
                   />
                 </Col>
               </FormGroup>
               <FormGroup check row>
-                <Button>Compile</Button> &nbsp;
-                <Button>Run</Button> &nbsp;
-                <Button>Submit</Button>
+                <Button color="info" onClick={this.handleClick}>
+                  Compile/Run
+                </Button>
+                &nbsp;
+                <Button color="info">Submit</Button>
               </FormGroup>
             </Form>
           </CardBody>
@@ -65,8 +87,15 @@ export class Question extends Component {
 
 function mapStateToProps(state) {
   return {
-    questions: state.testQuestions
+    questions: state.testQuestions,
+    output: state.testSuccess
   };
 }
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ compileCode, compileSuccess }, dispatch);
+}
 
-export default connect(mapStateToProps)(Question);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Question);

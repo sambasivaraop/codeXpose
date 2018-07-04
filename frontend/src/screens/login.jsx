@@ -10,7 +10,8 @@ import {
   FormGroup,
   Label,
   Input,
-  FormText
+  FormText,
+  Alert
 } from "reactstrap";
 import user2 from "../img/user2.png";
 
@@ -37,6 +38,12 @@ export class Login extends Component {
     this.props.login({ username, password });
   };
   render() {
+    var errorAlert = "";
+    if (this.props.error) {
+      errorAlert = (
+        <Alert color="danger"> {this.props.error.response.data} </Alert>
+      );
+    }
     return (
       <Card body className="loginBox">
         <img
@@ -49,6 +56,7 @@ export class Login extends Component {
         <CardTitle tag="h2" className="text-center">
           Sign In
         </CardTitle>
+        {errorAlert}
         <Form name="login-form" id="login-form" onSubmit={this.handleSubmit}>
           <FormGroup>
             <Label for="username">Email</Label>
@@ -98,4 +106,7 @@ function mapDispatchToProps(dispatch) {
     dispatch
   );
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);

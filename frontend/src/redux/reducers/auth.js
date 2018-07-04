@@ -30,5 +30,13 @@ export const loginReducers = {
       default:
         return state;
     }
+  },
+  testID: (state = "", action) => {
+    switch (action.type) {
+      case authActions.GET_TEST_ID:
+        return action.payload.id;
+      default:
+        return state;
+    }
   }
 };

@@ -16,40 +16,50 @@ export class ViewTests extends Component {
     var active_view_test_class = "active";
     return (
       <div>
-        <Topbar activeViewTest={active_view_test_class} />
-        <Sidebar activeViewTest={active_view_test_class.concat(" bg-info")} />
-        <Row className="boxStyle">
-          <Col md="12">
-            <Card body className="border border-primary bgGrey">
-              <CardTitle> View Tests </CardTitle>
-              <br />
-              <Table bordered striped className="bg-light" size="sm">
-                <thead>
-                  <tr>
-                    <th>Test Id</th>
-                    <th>Title</th>
-                    <th>Type</th>
-                    <th>Duration</th>
-                    <th>Difficulty</th>
-                    <th>Interviewer Id</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {this.props.tests.map((tests, index) => (
-                    <tr key={index}>
-                      <td> {tests.id} </td>
-                      <td> {tests.title} </td>
-                      <td> {tests.test_type} </td>
-                      <td>{tests.duration}</td>
-                      <td>{tests.difficulty}</td>
-                      <td>{tests.created_by}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </Card>
-          </Col>
-        </Row>
+        {localStorage.getItem("user_type") === "INTERVIEWER" ? (
+          <div>
+            <Topbar activeViewTest={active_view_test_class} />
+            <Sidebar
+              activeViewTest={active_view_test_class.concat(" bg-info")}
+            />
+            <Row className="boxStyle">
+              <Col md="12">
+                <Card body className="border border-primary bgGrey">
+                  <CardTitle> View Tests </CardTitle>
+                  <br />
+                  <Table bordered striped className="bg-light" size="sm">
+                    <thead>
+                      <tr>
+                        <th>Test Id</th>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Duration</th>
+                        <th>Difficulty</th>
+                        <th>Interviewer Id</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.props.tests.map((tests, index) => (
+                        <tr key={index}>
+                          <td> {tests.id} </td>
+                          <td> {tests.title} </td>
+                          <td> {tests.test_type} </td>
+                          <td>{tests.duration}</td>
+                          <td>{tests.difficulty}</td>
+                          <td>{tests.created_by}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </Card>
+              </Col>
+            </Row>
+          </div>
+        ) : (
+          <div>
+            <h4>Sorry! You are not authorized.</h4>
+          </div>
+        )}
       </div>
     );
   }

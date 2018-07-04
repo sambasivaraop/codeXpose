@@ -16,7 +16,7 @@ import {
 } from "reactstrap";
 import userImg from "../img/user-icon.png";
 
-export class Topbar extends React.Component {
+export class TopbarCandidate extends React.Component {
   constructor(props) {
     super(props);
 
@@ -34,11 +34,8 @@ export class Topbar extends React.Component {
     this.props.logout();
   };
   render() {
-    var dropDownItemClass = "dropdown-item";
+    var test_class = this.props.activeTest;
     var navClass = "nav-link";
-    var view_usr_active = dropDownItemClass + " " + this.props.activeViewUser;
-    var create_usr_active =
-      dropDownItemClass + " " + this.props.activeCreateUser;
     var dashboard_active = navClass + " " + this.props.activeDashboard;
     return (
       <Navbar color="info" light expand="lg" fixed="top">
@@ -49,31 +46,19 @@ export class Topbar extends React.Component {
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <Link className={dashboard_active} to="/dashboard">
+              <Link className={dashboard_active} to="/home">
                 Home
               </Link>
             </NavItem>
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle
-                nav
-                caret
-                className={
-                  this.props.activeViewUser || this.props.activeCreateUser
-                    ? "active"
-                    : ""
-                }
-              >
-                User
-              </DropdownToggle>
-              <DropdownMenu>
-                <Link className={create_usr_active} to="/create_user/">
-                  Create User
+            {this.props.test_id ? (
+              <NavItem className={test_class}>
+                <Link className="nav-link" to="/test">
+                  Test
                 </Link>
-                <Link className={view_usr_active} to="/view_users">
-                  View Users
-                </Link>
-              </DropdownMenu>
-            </UncontrolledDropdown>
+              </NavItem>
+            ) : (
+              ""
+            )}
           </Nav>
           <Nav navbar>
             <UncontrolledDropdown nav inNavbar>
@@ -101,10 +86,15 @@ export class Topbar extends React.Component {
     );
   }
 }
+function mapStateToProps(state) {
+  return {
+    test_id: state.testID
+  };
+}
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ logout }, dispatch);
 }
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
-)(Topbar);
+)(TopbarCandidate);

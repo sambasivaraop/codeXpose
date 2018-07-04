@@ -16,38 +16,48 @@ export class ViewQuestions extends Component {
     var active_view_ques_class = "active";
     return (
       <div>
-        <Topbar activeViewQues={active_view_ques_class} />
-        <Sidebar activeViewQues={active_view_ques_class.concat(" bg-info")} />
-        <Row className="boxStyle">
-          <Col md="12">
-            <Card body className="border border-primary bgGrey">
-              <CardTitle> View Questions </CardTitle>
-              <br />
-              <Table bordered striped className="bg-light" size="sm">
-                <thead>
-                  <tr>
-                    <th>Question Id</th>
-                    <th>Title</th>
-                    <th>Type</th>
-                    <th>Marks</th>
-                    <th>Difficulty</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {this.props.questions.map((questions, index) => (
-                    <tr key={index}>
-                      <td> {questions.question_id} </td>
-                      <td> {questions.title} </td>
-                      <td> {questions.question_type} </td>
-                      <td>{questions.marks}</td>
-                      <td>{questions.difficulty}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </Card>
-          </Col>
-        </Row>
+        {localStorage.getItem("user_type") === "INTERVIEWER" ? (
+          <div>
+            <Topbar activeViewQues={active_view_ques_class} />
+            <Sidebar
+              activeViewQues={active_view_ques_class.concat(" bg-info")}
+            />
+            <Row className="boxStyle">
+              <Col md="12">
+                <Card body className="border border-primary bgGrey">
+                  <CardTitle> View Questions </CardTitle>
+                  <br />
+                  <Table bordered striped className="bg-light" size="sm">
+                    <thead>
+                      <tr>
+                        <th>Question Id</th>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Marks</th>
+                        <th>Difficulty</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.props.questions.map((questions, index) => (
+                        <tr key={index}>
+                          <td> {questions.id} </td>
+                          <td> {questions.title} </td>
+                          <td> {questions.question_type} </td>
+                          <td>{questions.marks}</td>
+                          <td>{questions.difficulty}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </Card>
+              </Col>
+            </Row>
+          </div>
+        ) : (
+          <div>
+            <h4>Sorry! You are not authorized.</h4>
+          </div>
+        )}
       </div>
     );
   }
