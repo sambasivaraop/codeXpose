@@ -27,6 +27,16 @@ export class Question extends Component {
       text: question.skeleton
     };
     this.props.compileSuccess(null);
+    const docelem = document.documentElement;
+    if (docelem.requestFullscreen) {
+      docelem.requestFullscreen();
+    } else if (docelem.mozRequestFullScreen) {
+      docelem.mozRequestFullScreen();
+    } else if (docelem.webkitRequestFullscreen) {
+      docelem.webkitRequestFullscreen();
+    } else if (docelem.msRequestFullscreen) {
+      docelem.msRequestFullscreen();
+    }
   }
   handleInputChange = event => {
     event.preventDefault();
