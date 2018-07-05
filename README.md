@@ -43,7 +43,7 @@ Note the default admin user is **admin@xyz.com**<br>
 
 Once docker and docker-compose are installed w/o any errors then run following command - 
 
-`docker-compose up`
+`docker-compose up -d`
 
 Post this, your django dev server shall be up and running at - <br>
 `http://127.0.0.1:8000/`
@@ -52,7 +52,6 @@ Post this, your django dev server shall be up and running at - <br>
 `docker ps` #find the container id<br>
 `docker exec -ti [container id] bash`<br><br>
 Above command takes you inside the docker container and code is available at /src directory, please refer to the django documentation and create a superuser for you.<br>
-*Note: Currently, we are facing issues with docker setup. [Issue#56](https://github.com/Imaginea/codeXpose/issues/56) has been raised to address the same.*<br>
 
 # Contributing
 Please see [contribution](CONTRIBUTING.md).
