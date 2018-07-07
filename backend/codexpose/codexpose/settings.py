@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'codexpose.wsgi.APPLICATION'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
+os.environ.setdefault("DATABASE_HOST", "127.0.0.1")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -91,7 +91,7 @@ DATABASES = {
         'TEST_NAME': 'test_codexpose',
         'USER': 'dev',
         'PASSWORD': 'abc@1234',
-        'HOST': '127.0.0.1',
+        'HOST': os.environ.get('DATABASE_HOST'),
         'PORT': '3306'
     }
 }
