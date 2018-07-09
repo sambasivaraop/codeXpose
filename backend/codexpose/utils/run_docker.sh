@@ -1,8 +1,8 @@
 #!/bin/sh
 
 IMAGE_NAME="compile_code"
-IMAGE_DIR_PATH=$(dirname $(find /home -path */backend/codexpose/Dockerfile))
-OUTPUT_FILE=$(find /home -path */backend/codexpose/display_output.txt)
+IMAGE_DIR_PATH=$(dirname $(find /home -path */backend/codexpose/utils/Dockerfile))
+OUTPUT_FILE=$(find /home -path */backend/codexpose/utils/display_output.txt)
 FILE="file_handle.py"
 
 sudo docker build -t $IMAGE_NAME $IMAGE_DIR_PATH
