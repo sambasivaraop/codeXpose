@@ -261,15 +261,15 @@ class CandidateSolutionViewSet(viewsets.ModelViewSet):
     def run(self, request):
         """To compile and execute the code written by the candidate"""
         dir_path = os.path.split(os.path.dirname(__file__))[0]
-        config_path = os.path.join(dir_path, CONFIG_FILE)
+        utils_path = os.path.join(dir_path, 'utils')
+        config_path = os.path.join(utils_path, CONFIG_FILE)
 
         config = configparser.ConfigParser()
         config.read(config_path)
 
-        script_path = os.path.join(dir_path, config['file']['script'])
-        answer_path = os.path.join(dir_path, config['file']['answer_file'])
-        output_path = os.path.join(dir_path, config['file']['output_file'])
-
+        script_path = os.path.join(utils_path, config['file']['script'])
+        answer_path = os.path.join(utils_path, config['file']['answer_file'])
+        output_path = os.path.join(utils_path, config['file']['output_file'])
         code = request.data.get('code', None)
         if code and not "":
             with open(answer_path, "w+") as code_fp:
