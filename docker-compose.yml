@@ -11,21 +11,26 @@ services:
        MYSQL_USER: dev
        MYSQL_PASSWORD: abc@1234
 
-  web:
+  backend:
     # point build to current dir, so that it can pick Dockerfile for web image
-    build: .
+    build: ./backend/codexpose
     # Added sleep to make sure MySql service is ready - FIXME
     environment:
       DATABASE_HOST: db
-    command: >
-      bash -c "sleep 120
-      && python backend/codexpose/manage.py makemigrations interview
-      && python backend/codexpose/manage.py migrate
-      && python backend/codexpose/manage.py createsuperuser
-      && python backend/codexpose/manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
     ports:
       - "8000:8000"
     depends_on:
       - db
+
+  frontend:
+    build: ./frontend
+    environment:
+      BACKEND_HOST: backend
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
