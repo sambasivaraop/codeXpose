@@ -47,6 +47,7 @@ def question_data_path(instance, filename):
     # question data will be uploaded to MEDIA_ROOT/question_<id>/<filename>
     return 'question_{0}/{1}'.format(instance.title.replace(" ", "_"),
                                      filename)
+    # return 'question_{0}/{1}'.format(instance.id, filename)
 
 
 class Question(models.Model):
