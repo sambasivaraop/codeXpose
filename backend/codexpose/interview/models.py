@@ -45,7 +45,8 @@ class User(AbstractBaseUser):
 def question_data_path(instance, filename):
     """Returns Questions data path."""
     # question data will be uploaded to MEDIA_ROOT/question_<id>/<filename>
-    return 'question_{0}/{1}'.format(instance.id, filename)
+    return 'question_{0}/{1}'.format(instance.title.replace(" ", "_"),
+                                     filename)
 
 
 class Question(models.Model):

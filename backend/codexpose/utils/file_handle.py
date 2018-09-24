@@ -3,7 +3,7 @@ import configparser
 import logging
 """ 
 This Module reads the code written by the candidate from 
-candidate_answer.txt file and executes it.
+solution.py file and executes it.
 Also captures the exception while executing the code.
 Exception captured will be written to display_output.txt file through shell 
 commands.
